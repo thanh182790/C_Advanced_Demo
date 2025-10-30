@@ -65,12 +65,12 @@ B1_LibraryManager/
 ├── main.c              # Entry point of the program
 ├── Makefile            # Build configuration
 └── Readme.md           # Project documentation
-
+````
 ---
 
 ## 🏗️ Build & Run Instructions
 
-### 🧱 1. Build the project
+### 🧱 1. Build the project
 Use the provided `Makefile`:
 
 ```bash
