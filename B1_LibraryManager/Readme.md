@@ -47,23 +47,24 @@ A simple **console-based library management system** written in C, designed to p
 
 ## 🗂️ Project Structure
 
+```text
 B1_LibraryManager/
 ├── Book/
-│ ├── book.c # Implementation of book operations
-│ └── book.h # Book structure and function declarations
+│   ├── book.c          # Implementation of book operations
+│   └── book.h          # Book structure and function declarations
 ├── User/
-│ ├── user.c # Implementation of user operations
-│ └── user.h # User structure and function declarations
+│   ├── user.c          # Implementation of user operations
+│   └── user.h          # User structure and function declarations
 ├── Management/
-│ ├── management.c # Core menu & control logic
-│ ├── management.h # Function declarations for management layer
-│ └── management.c_bk # (Backup file)
+│   ├── management.c    # Core menu & control logic
+│   ├── management.h    # Function declarations for management layer
+│   └── management.c_bk # (Backup file)
 ├── Ultils/
-│ ├── ultils.c # Utility functions (menu, helpers, etc.)
-│ └── ultils.h
-├── main.c # Entry point of the program
-├── Makefile # Build configuration
-└── Readme.md # Project documentation
+│   ├── ultils.c        # Utility functions (menu, helpers, etc.)
+│   └── ultils.h
+├── main.c              # Entry point of the program
+├── Makefile            # Build configuration
+└── Readme.md           # Project documentation
 
 ---
 
