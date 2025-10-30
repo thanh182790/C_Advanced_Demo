@@ -22,8 +22,8 @@ void showBooks(Book_t books[], int n);
 void showUsers(User_t users[], int n);
 void showBorrowedBooks(Book_t books[], int n);
 void showBorrowingUsers(User_t users[], int n);
-void searchBook(Book_t books[], int n);
-void searchUser(User_t users[], int n);
+BookRetCode_t searchBook(Book_t books[], int n);
+UserRetCode_t searchUser(User_t users[], int n);
 void showMenu(MenuType_t type);
 
 #endif

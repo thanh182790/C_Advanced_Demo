@@ -1,0 +1,314 @@
+#include "management.h"
+#include "../Ultils/ultils.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+static Book_t s_books[MAX_BOOKS];
+static int s_bookCount = 0;
+static User_t s_users[MAX_USERS];
+static int s_userCount = 0;
+static char s_choice[10];
+static int s_retCode;
+
+static bool isValidMenuInput(const char *input)
+{
+    size_t len = strlen(input);
+
+    if (len == 2 && input[1] == '\n')
+    {
+        return true;
+    }
+
+    if (len == 3 && input[1] == '\r' && input[2] == '\n')
+    {
+        return true;
+    }
+
+    return false;
+}
+
+static void manageBook()
+{
+    system("clear");
+    showMenu(MENU_BOOK);
+    do
+    {
+        memset(s_choice, '0', sizeof(s_choice));
+        printf("\nENTER YOUR CHOICE: ");
+        if (fgets(s_choice, sizeof(s_choice), stdin) == NULL)
+        {
+            system("clear");
+            showMenu(MENU_BOOK);
+            printf("\n\t\t\t-> ERROR: Failed to read input.\n");
+            continue;
+        }
+
+        if (isValidMenuInput(s_choice) == false)
+        {
+            system("clear");
+            showMenu(MENU_BOOK);
+            printf("\n\t\t\t-> ERROR: YOUR CHOICE %s FORMAT WRONG . \
+                    Please enter only one character and press Enter!\n", s_choice);
+            continue;
+        }
+
+        switch (s_choice[0])
+        {
+        case 'A': /* Fall through */
+        case 'a':
+            s_retCode = addBook(s_books, &s_bookCount);
+            bookRetCodeToString((BookRetCode_t)s_retCode);
+            break;
+        case 'E': /* Fall through */
+        case 'e':
+            s_retCode = editBook(s_books, s_bookCount);
+            bookRetCodeToString((BookRetCode_t)s_retCode);
+            break;
+        case 'D': /* Fall through */
+        case 'd':
+            s_retCode = deleteBook(s_books, &s_bookCount);
+            bookRetCodeToString((BookRetCode_t)s_retCode);
+            break;
+        case 'S': /* Fall through */
+        case 's':
+            showBooks(s_books, s_bookCount);
+            break;
+        case 'M': /* Fall through */
+        case 'm':
+            break;
+        default:
+            printf("\t\t\t-> CAN'T FIND ANY SUITABLE CHOICE. \
+                    RE-ENTER YOUR CHOICE !!!!\n");
+            break;
+        }
+    } while ((s_choice[0] != 'M') && s_choice[0] != 'm');
+    system("clear");
+    showMenu(MENU_MAIN);
+}
+
+static void manageUser()
+{
+    system("clear");
+    showMenu(MENU_USER);
+    do
+    {
+        memset(s_choice, '0', sizeof(s_choice));
+        printf("\nENTER YOUR CHOICE: ");
+        if (fgets(s_choice, sizeof(s_choice), stdin) == NULL)
+        {
+            system("clear");
+            showMenu(MENU_USER);
+            printf("\n\t\t\t-> ERROR: Failed to read input.\n");
+            continue;
+        }
+
+        if (isValidMenuInput(s_choice) == false)
+        {
+            system("clear");
+            showMenu(MENU_USER);
+            printf("\n\t\t\t-> ERROR: YOUR CHOICE %s FORMAT WRONG . \
+                   Please enter only one character and press Enter!\n", s_choice);
+            continue;
+        }
+
+        switch (s_choice[0])
+        {
+        case 'A': /* Fall through */
+        case 'a':
+            s_retCode = addUser(s_users, &s_userCount);
+            userRetCodeToString((UserRetCode_t)s_retCode);
+            break;
+        case 'E': /* Fall through */
+        case 'e':
+            s_retCode = editUser(s_users, s_userCount);
+            userRetCodeToString((UserRetCode_t)s_retCode);
+            break;
+        case 'D': /* Fall through */
+        case 'd':
+            s_retCode = deleteUser(s_users, &s_userCount);
+            userRetCodeToString((UserRetCode_t)s_retCode);
+            break;
+        case 'S': /* Fall through */
+        case 's':
+            showUsers(s_users, s_userCount);
+            break;
+        case 'M': /* Fall through */
+        case 'm':
+            break;
+        default:
+            printf("\t\t\t-> CAN'T FIND ANY SUITABLE CHOICE. \
+                    RE-ENTER YOUR CHOICE !!!!\n");
+            break;
+        }
+    } while ((s_choice[0] != 'M') && s_choice[0] != 'm');
+    system("clear");
+    showMenu(MENU_MAIN);
+}
+
+static void manageBorrow()
+{
+    system("clear");
+    showMenu(MENU_BORROW);
+    do
+    {
+        memset(s_choice, '0', sizeof(s_choice));
+        printf("\nENTER YOUR CHOICE: ");
+        if (fgets(s_choice, sizeof(s_choice), stdin) == NULL)
+        {
+            system("clear");
+            showMenu(MENU_BORROW);
+            printf("\n\t\t\t-> ERROR: Failed to read input.\n");
+            continue;
+        }
+
+        if (isValidMenuInput(s_choice) == false)
+        {
+            system("clear");
+            showMenu(MENU_BORROW);
+            printf("\n\t\t\t-> ERROR: YOUR CHOICE %s FORMAT WRONG. \
+                    Please enter only one character and press Enter!\n", s_choice);
+            continue;
+        }
+
+        switch (s_choice[0])
+        {
+        case 'B': /* Fall through */
+        case 'b':
+        {
+            s_retCode = borrowReturnBook(s_books, s_bookCount,
+                                         s_users, s_userCount,
+                                         BORROW_BOOK);
+            bookRetCodeToString((BookRetCode_t)s_retCode);
+        }
+        break;
+        case 'R': /* Fall through */
+        case 'r':
+        {
+            s_retCode = borrowReturnBook(s_books, s_bookCount,
+                                         s_users, s_userCount,
+                                         RETURN_BOOK);
+            bookRetCodeToString((BookRetCode_t)s_retCode); 
+        }
+        break;
+        case 'M': /* Fall through */
+        case 'm':
+            break;
+        default:
+            printf("\t\t\t-> CAN'T FIND ANY SUITABLE CHOICE.\
+                    RE-ENTER YOUR CHOICE !!!!\n");
+            break;
+        }
+    } while ((s_choice[0] != 'M') && s_choice[0] != 'm');
+    system("clear");
+    showMenu(MENU_MAIN);
+}
+
+static void manageSearch()
+{
+    system("clear");
+    showMenu(MENU_SEARCH);
+    do
+    {
+        memset(s_choice, '0', sizeof(s_choice));
+        printf("\nENTER YOUR CHOICE: ");
+        if (fgets(s_choice, sizeof(s_choice), stdin) == NULL)
+        {
+            system("clear");
+            showMenu(MENU_SEARCH);
+            printf("\n\t\t\t-> ERROR: Failed to read input.\n");
+            continue;
+        }
+
+        if (isValidMenuInput(s_choice) == false)
+        {
+            system("clear");
+            showMenu(MENU_SEARCH);
+            printf("\n\t\t\t-> ERROR: YOUR CHOICE %s FORMAT WRONG.\
+                    Please enter only one character and press Enter!\n", s_choice);
+            continue;
+        }
+
+        switch (s_choice[0])
+        {
+        case '1':
+            s_retCode = searchBook(s_books, s_bookCount);
+            bookRetCodeToString((BookRetCode_t)s_retCode);
+            break;
+        case '2':
+            showBorrowedBooks(s_books, s_bookCount);
+            break;
+        case '3':
+            showBorrowingUsers(s_users, s_userCount);
+            break;
+        case '4':
+            s_retCode = searchUser(s_users, s_userCount);
+            userRetCodeToString((UserRetCode_t)s_retCode);
+            break;
+        case 'M': /* Fall through */
+        case 'm':
+            break;
+        default:
+            printf("\t\t\t-> CAN'T FIND ANY SUITABLE CHOICE.\
+                    RE-ENTER YOUR CHOICE !!!!\n");
+            break;
+        }
+    } while ((s_choice[0] != 'M') && s_choice[0] != 'm');
+    system("clear");
+    showMenu(MENU_MAIN);
+}
+
+void manageLibrary()
+{
+    showMenu(MENU_MAIN);
+    do
+    {
+        memset(s_choice, '0', sizeof(s_choice));
+        printf("\nENTER YOUR CHOICE: ");
+        if (fgets(s_choice, sizeof(s_choice), stdin) == NULL)
+        {
+            system("clear");
+            showMenu(MENU_MAIN);
+            printf("\n\t\t\t-> ERROR: Failed to read input.\n");
+            continue;
+        }
+
+        if (isValidMenuInput(s_choice) == false)
+        {
+            system("clear");
+            showMenu(MENU_MAIN);
+            printf("\n\t\t\t-> ERROR: YOUR CHOICE %s FORMAT WRONG.\
+                    Please enter only one character and press Enter!\n", s_choice);
+            continue;
+        }
+
+        switch (s_choice[0])
+        {
+        case 'B': /* Fall through */
+        case 'b':
+            manageBook();
+            break;
+        case 'U': /* Fall through */
+        case 'u':
+            manageUser();
+            break;
+        case 'P': /* Fall through */
+        case 'p':
+            manageBorrow();
+            break;
+        case 'S': /* Fall through */
+        case 's':
+            manageSearch();
+            break;
+        case 'E': /* Fall through */
+        case 'e':
+            printf("\n\t\t\tEXIT PROGRAM SUCEESSFULL!!!\n");
+            break;
+        default:
+            printf("\t\t\t-> CAN'T FIND ANY SUITABLE CHOICE.\
+                    RE-ENTER YOUR CHOICE !!!!\n");
+            break;
+        }
+    } while ((s_choice[0] != 'E') && s_choice[0] != 'e');
+}

@@ -17,23 +17,23 @@ static const char *bookMenuItems[] = {
     "|  5. PRESS 'M' OR 'm' TO RETURN TO MAIN MENU                       |"};
 
 static const char *userMenuItems[] = {
-    "|  1. PRESS 'A' OR 'a' TO ADD NEW USER                                                  |",
-    "|  2. PRESS 'E' OR 'e' TO EDIT USER INFORMATION                                         |",
-    "|  3. PRESS 'D' OR 'd' TO DELETE USER                                                   |",
-    "|  4. PRESS 'S' OR 's' TO SHOW ALL USERS                                                |",
-    "|  5. PRESS 'M' OR 'm' TO RETURN TO MAIN MENU                                           |"};
+    "|  1. PRESS 'A' OR 'a' TO ADD NEW USER                              |",
+    "|  2. PRESS 'E' OR 'e' TO EDIT USER INFORMATION                     |",
+    "|  3. PRESS 'D' OR 'd' TO DELETE USER                               |",
+    "|  4. PRESS 'S' OR 's' TO SHOW ALL USERS                            |",
+    "|  5. PRESS 'M' OR 'm' TO RETURN TO MAIN MENU                       |"};
 
 static const char *borrowMenuItems[] = {
-    "|  1. PRESS 'B' OR 'b' TO BORROW BOOK                                                   |",
-    "|  2. PRESS 'R' OR 'r' TO RETURN BOOK                                                   |",
-    "|  3. PRESS 'M' OR 'm' TO RETURN TO MAIN MENU                                           |"};
+    "|  1. PRESS 'B' OR 'b' TO BORROW BOOK                               |",
+    "|  2. PRESS 'R' OR 'r' TO RETURN BOOK                               |",
+    "|  3. PRESS 'M' OR 'm' TO RETURN TO MAIN MENU                       |"};
 
 static const char *searchMenuItems[] = {
-    "|  1. PRESS '1' TO SEARCH BOOK BY TITLE OR AUTHOR                                |",
-    "|  2. PRESS '2' TO SHOW ALL BORROWED BOOKS                                       |",
-    "|  3. PRESS '3' TO SHOW USERS WHO BORROWED BOOKS                                 |",
-    "|  4. PRESS '4' TO SEARCH USER BY NAME OR ID                                     |",
-    "|  5. PRESS 'M' OR 'm' TO RETURN TO MAIN MENU                                    |"};
+    "|  1. PRESS '1' TO SEARCH BOOK BY TITLE OR AUTHOR                   |",
+    "|  2. PRESS '2' TO SHOW ALL BORROWED BOOKS                          |",
+    "|  3. PRESS '3' TO SHOW USERS WHO BORROWED BOOKS                    |",
+    "|  4. PRESS '4' TO SEARCH USER BY NAME OR ID                        |",
+    "|  5. PRESS 'M' OR 'm' TO RETURN TO MAIN MENU                       |"};
 
 #define DEFINE_TITLE(name, title, items) [name] = title,
 static const char *menuTitles[] = {
@@ -113,14 +113,16 @@ void showBorrowingUsers(User_t users[], int n)
         printf("Khong co nguoi dung nao dang muon sach.\n");
 }
 
-void searchBook(Book_t books[], int n)
+BookRetCode_t searchBook(Book_t books[], int n)
 {
     char keyword[100];
+    int found = 0;
+
     printf("Nhap tu khoa tieu de/tac gia: ");
     getchar();
     fgets(keyword, 100, stdin);
     keyword[strcspn(keyword, "\n")] = 0;
-    int found = 0;
+
     for (int i = 0; i < n; i++)
     {
         if (strstr(books[i].title, keyword) || strstr(books[i].author, keyword))
@@ -131,11 +133,16 @@ void searchBook(Book_t books[], int n)
             found = 1;
         }
     }
+
     if (!found)
-        printf("Khong tim thay sach phu hop.\n");
+    {
+        return BOOK_SERCH_NOT_FOUND;
+    }
+    
+    return BOOK_SERCH_OK;
 }
 
-void searchUser(User_t users[], int n)
+UserRetCode_t searchUser(User_t users[], int n)
 {
     char keyword[100];
     printf("Nhap tu khoa ten nguoi dung: ");
@@ -153,5 +160,9 @@ void searchUser(User_t users[], int n)
         }
     }
     if (!found)
-        printf("Khong tim thay nguoi dung phu hop.\n");
+    {
+        return USER_SEARCH_NOT_FOUND;
+    }
+
+    return USER_SEARCH_OK;
 }
