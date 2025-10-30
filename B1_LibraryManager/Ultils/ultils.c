@@ -45,6 +45,8 @@ static const char *const *menuContents[] = {
     MENU_LIST(DEFINE_ITEMS)};
 #undef DEFINE_ITEMS
 
+#define LINE "-----------------------------------------------------------------------------"
+
 void showMenu(MenuType_t type)
 {
     printf("\033[1;33m"); /* Yellow color */
@@ -60,76 +62,143 @@ void showMenu(MenuType_t type)
     printf("\033[0m"); /* Reset color */
 }
 
+/**
+ * @brief   Display all books in the library.
+ */
 void showBooks(Book_t books[], int n)
 {
-    printf("\n--- Danh sach sach ---\n");
+    printf("\n================================= BOOK LIST =================================\n");
+    printf("%-5s | %-30s | %-20s | %-8s\n", "ID", "Title", "Author", "Status");
+    printf("%s\n", LINE);
+    if (n == 0)
+    {
+        printf("No books available.\n");
+        return;
+    }
+
     for (int i = 0; i < n; i++)
     {
-        printf("ID: %d | %s | %s | %s\n",
-               books[i].id, books[i].title, books[i].author,
-               books[i].isBorrowed == 0 ? "Con" : "Muon");
+        printf("%-5d | %-30s | %-20s | %-8s\n",
+               books[i].id,
+               books[i].title,
+               books[i].author,
+               books[i].isBorrowed == 0 ? "Available" : "Borrowed");
     }
+    printf("%s\n", LINE);
 }
 
+/**
+ * @brief   Display all users in the system.
+ */
 void showUsers(User_t users[], int n)
 {
-    printf("\n--- Danh sach nguoi dung ---\n");
+    printf("\n================================= USER LIST =================================\n");
+    printf("%-5s | %-25s | %-15s\n", "ID", "Name", "Borrowing");
+    printf("%s\n", LINE);
+    if (n == 0)
+    {
+        printf("No users available.\n");
+        return;
+    }
+
     for (int i = 0; i < n; i++)
     {
-        printf("ID: %d | %s | Dang muon %d sach\n",
-               users[i].id, users[i].name, users[i].borrowedCount);
+        printf("%-5d | %-25s | %-15d\n",
+               users[i].id,
+               users[i].name,
+               users[i].borrowedCount);
     }
+    printf("%s\n", LINE);
 }
 
-void showBorrowedBooks(Book_t books[], int n)
+/**
+ * @brief   Show all borrowed books.
+ */
+BookRetCode_t showBorrowedBooks(Book_t books[], int n)
 {
-    printf("\n--- Sach dang duoc muon ---\n");
     int found = 0;
+
+    printf("\n============================ BORROWED BOOKS LIST ============================\n");
+    printf("%-5s | %-30s | %-20s\n", "ID", "Title", "Author");
+    printf("%s\n", LINE);
     for (int i = 0; i < n; i++)
     {
         if (books[i].isBorrowed == 1)
         {
-            printf("ID: %d | %s | %s\n", books[i].id, books[i].title, books[i].author);
+            printf("%-5d | %-30s | %-20s\n",
+                   books[i].id,
+                   books[i].title,
+                   books[i].author);
             found = 1;
         }
     }
+
     if (!found)
-        printf("Khong co sach nao dang duoc muon.\n");
+    {
+        return BOOK_BORROWED_SHOW_NOT_FOUND;
+    }
+
+    printf("%s\n", LINE);
+    return BOOK_BORROWED_SHOW_OK;
 }
 
-void showBorrowingUsers(User_t users[], int n)
+/**
+ * @brief   Show all users currently borrowing books.
+ */
+UserRetCode_t showBorrowingUsers(User_t users[], int n)
 {
-    printf("\n--- Nguoi dung dang muon sach ---\n");
     int found = 0;
+
+    printf("\n========================= USERS CURRENTLY BORROWING =========================\n");
+    printf("%-5s | %-25s | %-15s\n", "ID", "Name", "Books Borrowed");
+    printf("%s\n", LINE);
     for (int i = 0; i < n; i++)
     {
         if (users[i].borrowedCount > 0)
         {
-            printf("ID: %d | %s | Dang muon %d sach\n", users[i].id, users[i].name, users[i].borrowedCount);
+            printf("%-5d | %-25s | %-15d\n",
+                   users[i].id,
+                   users[i].name,
+                   users[i].borrowedCount);
             found = 1;
         }
     }
+
     if (!found)
-        printf("Khong co nguoi dung nao dang muon sach.\n");
+    {
+        return USER_BORROWING_SHOW_NOT_FOUND;
+    }
+
+    printf("%s\n", LINE);
+    return USER_BORROWING_SHOW_OK;
 }
 
+/**
+ * @brief   Search for books by title or author keyword.
+ */
 BookRetCode_t searchBook(Book_t books[], int n)
 {
     char keyword[100];
     int found = 0;
 
-    printf("Nhap tu khoa tieu de/tac gia: ");
+    printf("\nEnter keyword (title/author): ");
     getchar();
-    fgets(keyword, 100, stdin);
+    fgets(keyword, sizeof(keyword), stdin);
     keyword[strcspn(keyword, "\n")] = 0;
+    printf("\n=============================== SEARCH RESULT ===============================\n");
+    printf("%-5s | %-30s | %-20s | %-10s\n", "ID", "Title", "Author", "Status");
+    printf("%s\n", LINE);
 
     for (int i = 0; i < n; i++)
     {
-        if (strstr(books[i].title, keyword) || strstr(books[i].author, keyword))
+        if (strstr(books[i].title, keyword) != NULL ||
+            strstr(books[i].author, keyword) != NULL)
         {
-            printf("ID: %d | %s | %s | %s\n",
-                   books[i].id, books[i].title, books[i].author,
-                   books[i].isBorrowed == 0 ? "Con" : "Muon");
+            printf("%-5d | %-30s | %-20s | %-10s\n",
+                   books[i].id,
+                   books[i].title,
+                   books[i].author,
+                   books[i].isBorrowed == 0 ? "Available" : "Borrowed");
             found = 1;
         }
     }
@@ -138,31 +207,43 @@ BookRetCode_t searchBook(Book_t books[], int n)
     {
         return BOOK_SERCH_NOT_FOUND;
     }
-    
+
+    printf("%s\n", LINE);
     return BOOK_SERCH_OK;
 }
 
+/**
+ * @brief   Search for users by name keyword.
+ */
 UserRetCode_t searchUser(User_t users[], int n)
 {
     char keyword[100];
-    printf("Nhap tu khoa ten nguoi dung: ");
-    getchar();
-    fgets(keyword, 100, stdin);
-    keyword[strcspn(keyword, "\n")] = 0;
     int found = 0;
+
+    printf("\nEnter keyword (user name): ");
+    getchar();
+    fgets(keyword, sizeof(keyword), stdin);
+    keyword[strcspn(keyword, "\n")] = 0;
+    printf("\n============================ USER SEARCH RESULT =============================\n");
+    printf("%-5s | %-25s | %-15s\n", "ID", "Name", "Books Borrowed");
+    printf("%s\n", LINE);
     for (int i = 0; i < n; i++)
     {
-        if (strstr(users[i].name, keyword))
+        if (strstr(users[i].name, keyword) != NULL)
         {
-            printf("ID: %d | %s | Dang muon %d sach\n",
-                   users[i].id, users[i].name, users[i].borrowedCount);
+            printf("%-5d | %-25s | %-15d\n",
+                   users[i].id,
+                   users[i].name,
+                   users[i].borrowedCount);
             found = 1;
         }
     }
+
     if (!found)
     {
         return USER_SEARCH_NOT_FOUND;
     }
 
+    printf("%s\n", LINE);
     return USER_SEARCH_OK;
 }

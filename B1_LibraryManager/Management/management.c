@@ -173,10 +173,12 @@ static void handleSearchChoice(char c)
         bookRetCodeToString((BookRetCode_t)s_retCode);
         break;
     case '2':
-        showBorrowedBooks(s_books, s_bookCount);
+        s_retCode = showBorrowedBooks(s_books, s_bookCount);
+        bookRetCodeToString((BookRetCode_t)s_retCode);
         break;
     case '3':
-        showBorrowingUsers(s_users, s_userCount);
+        s_retCode = showBorrowingUsers(s_users, s_userCount);
+        userRetCodeToString((UserRetCode_t)s_retCode);
         break;
     case '4':
         s_retCode = searchUser(s_users, s_userCount);

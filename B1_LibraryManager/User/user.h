@@ -13,7 +13,9 @@
     X(USER_DELETE_FAILED_BORROWING, "ERROR: Cannot delete user — user currently has borrowed books.") \
     X(USER_SUCCESS_DELETE, "User deleted successfully.") \
     X(USER_SEARCH_NOT_FOUND, "Seacrh user not found.") \
-    X(USER_SEARCH_OK, "")
+    X(USER_SEARCH_OK, "") \
+    X(USER_BORROWING_SHOW_NOT_FOUND, "ERROR: There is no user borrowing book.") \
+    X(USER_BORROWING_SHOW_OK, "")
 
 typedef enum {
 #define X(code, msg) code,
@@ -57,8 +59,8 @@ UserRetCode_t deleteUser(User_t users[], int *count);
 /**
  * @brief   Returns a descriptive error message for a given user-related error code.
  * @param   code    Error code defined in UserRetCode_t (e.g., USER_SUCCESS_ADD, USER_ADD_FAILED_FULL).
- * @return  const char*  Human-readable error message corresponding to the provided error code.
+ * @return  void.
  */
-const char* userRetCodeToString(UserRetCode_t code);
+void userRetCodeToString(UserRetCode_t code);
 
 #endif

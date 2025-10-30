@@ -10,9 +10,9 @@ UserRetCode_t addUser(User_t users[], int *count)
         return USER_ADD_FAILED_FULL;
     }
 
-    printf("\t\t ADD A NEW USER\n");
+    printf("\n===== ADD A NEW USER =====\n");
     u.id = *count + 1;
-    printf("Enter user name: ");
+    printf("→ Enter user name: ");
     fgets(u.name, 100, stdin);
     u.name[strcspn(u.name, "\n")] = 0;
     u.borrowedCount = 0;
@@ -24,18 +24,18 @@ UserRetCode_t addUser(User_t users[], int *count)
 UserRetCode_t editUser(User_t users[], int count)
 {
     int id;
+    char buf[LENGHT_NAME];
 
-    printf("\t\t EDIT USER'S INFORMATION\n");
-    printf("Enter user id need edit: ");
+    printf("\n===== EDIT USER'S INFORMATION =====\n");
+    printf("→ Enter user id need edit: ");
     scanf("%d", &id);
     getchar();
     for (int i = 0; i < count; i++)
     {
         if (users[i].id == id)
         {
-            printf("Enter new user name: ");
-            char buf[100];
-            fgets(buf, 100, stdin);
+            printf("\t→ Enter new user name (leave empty to keep): ");
+            fgets(buf, LENGHT_NAME, stdin);
             if (buf[0] != '\n')
             {
                 buf[strcspn(buf, "\n")] = 0;
@@ -52,8 +52,8 @@ UserRetCode_t deleteUser(User_t users[], int *count)
 {
     int id;
 
-    printf("\t\t DELETE A USER\n");
-    printf("Enter user id need delete: ");
+    printf("\n===== DELETE A USER =====\n");
+    printf("→ Enter user id need delete: ");
     scanf("%d", &id);
     getchar();
     for (int i = 0; i < *count; i++)
@@ -79,7 +79,7 @@ UserRetCode_t deleteUser(User_t users[], int *count)
     return USER_DELETE_FAILED_NOT_FOUND;
 }
 
-const char *userRetCodeToString(UserRetCode_t code)
+void userRetCodeToString(UserRetCode_t code)
 {
     switch (code)
     {

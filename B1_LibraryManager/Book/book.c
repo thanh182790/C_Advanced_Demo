@@ -11,12 +11,12 @@ BookRetCode_t addBook(Book_t books[], int *count)
         return BOOK_ADD_FAILED_FULL;
     }
 
-    printf("\t\tADD A NEW BOOK\n");
     b.id = *count + 1;
-    printf("Enter book's tiltle: ");
+    printf("\n===== ADD A NEW BOOK =====\n");
+    printf("→ Enter title book: ");
     fgets(b.title, MAX_LENGHT_TITLE, stdin);
     b.title[strcspn(b.title, "\n")] = 0;
-    printf("Enter name author: ");
+    printf("→ Enter author name: ");
     fgets(b.author, LENGHT_NAME_AUTHOR, stdin);
     b.author[strcspn(b.author, "\n")] = 0;
     b.isBorrowed = 0;
@@ -28,17 +28,17 @@ BookRetCode_t addBook(Book_t books[], int *count)
 BookRetCode_t editBook(Book_t books[], int count)
 {
     int id;
+    char buf[MAX_LENGHT_TITLE];
 
-    printf("\t\t EDIT BOOK'S INFORMATION\n");
-    printf("Enter book's id need edit: ");
+    printf("\n===== EDIT BOOK INFORMATION =====\n");
+    printf("→ Enter book ID to edit: ");
     scanf("%d", &id);
     getchar();
     for (int i = 0; i < count; i++)
     {
         if (books[i].id == id)
         {
-            printf("Enter new book's tiltle: ");
-            char buf[MAX_LENGHT_TITLE];
+            printf("\t→ Enter new title (leave empty to keep): ");
             fgets(buf, MAX_LENGHT_TITLE, stdin);
             if (buf[0] != '\n')
             {
@@ -46,7 +46,7 @@ BookRetCode_t editBook(Book_t books[], int count)
                 strcpy(books[i].title, buf);
             }
 
-            printf("Enter new name author: ");
+            printf("\t→ Enter new author (leave empty to keep): ");
             fgets(buf, LENGHT_NAME_AUTHOR, stdin);
             if (buf[0] != '\n')
             {
@@ -65,19 +65,21 @@ BookRetCode_t deleteBook(Book_t books[], int *count)
 {
     int id;
 
-    printf("\t\t DELETE A BOOK \n");
-    printf("Enter book's id need delete: ");
+    printf("\n===== DELETE BOOK =====\n");
+    printf("→ Enter book ID to delete: ");
     scanf("%d", &id);
     getchar();
+
     for (int i = 0; i < *count; i++)
     {
         if (books[i].id == id)
         {
-            if (books[i].isBorrowed == 1)
+            if (books[i].isBorrowed)
             {
                 return BOOK_DELETE_FAILED_BORROWED;
             }
 
+            /* Shift remaining books left */
             for (int j = i; j < *count - 1; j++)
             {
                 books[j] = books[j + 1];
@@ -100,12 +102,12 @@ BookRetCode_t borrowReturnBook(Book_t books[], int countBook,
     int uid, bid;
     int found = 0;
 
-    (isBorrow == BORROW_BOOK)?printf("\t\t BORROW A BOOK\n"):
-                              printf("\t\t RETURN A BOOK\n");
-    printf("Enter user id: ");
+    printf("\n===== %s A BOOK =====\n", \
+            (isBorrow == BORROW_BOOK) ? "BORROW" : "RETURN");
+    printf("→ Enter user id: ");
     scanf("%d", &uid);
     getchar();
-    printf("Enter book id: ");
+    printf("→ Enter book id: ");
     scanf("%d", &bid);
     getchar();
     for (int i = 0; i < countUser; i++)
@@ -113,6 +115,7 @@ BookRetCode_t borrowReturnBook(Book_t books[], int countBook,
         if (users[i].id == uid)
         {
             u = &users[i];
+            break;
         }
     }
     
@@ -125,14 +128,14 @@ BookRetCode_t borrowReturnBook(Book_t books[], int countBook,
     {
         if (books[i].id == bid)
         {
-            b = &books[i];        
+            b = &books[i];
+            break;
         }
     }
 
     if(b == NULL)
     {
         return BOOK_BORROW_RETURN_FAILED_BOOK_NOT_FOUND;
-
     }
 
     switch (isBorrow)
@@ -148,6 +151,7 @@ BookRetCode_t borrowReturnBook(Book_t books[], int countBook,
         {
             return BOOK_BORROW_RETURN_FAILED_USER_LIMITED;
         }
+
         b->isBorrowed = 1;
         u->borrowedBooks[u->borrowedCount++] = b->id;
         return BOOK_BORROW_OK;
@@ -165,7 +169,10 @@ BookRetCode_t borrowReturnBook(Book_t books[], int countBook,
             {
                 found = 1;
                 for (int j = i; j < u->borrowedCount - 1; j++)
+                {
                     u->borrowedBooks[j] = u->borrowedBooks[j + 1];
+                }
+
                 u->borrowedCount--;
                 break;
             }
@@ -183,6 +190,8 @@ BookRetCode_t borrowReturnBook(Book_t books[], int countBook,
     default:
         break;
     }
+
+    return BOOK_BORROW_RETURN_FAILED_UNKNOWN_MODE;
 }
 
 void bookRetCodeToString(BookRetCode_t code)

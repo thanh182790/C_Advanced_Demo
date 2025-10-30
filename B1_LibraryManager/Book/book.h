@@ -23,9 +23,12 @@
     X(BOOK_BORROW_OK, "Borrow book successfully.")\
     X(BOOK_BORROW_RETURN_FAILED_BOOK_EXISTED, "ERROR: Cannot borrow or return book - book has been returned.")\
     X(BOOK_BORROW_RETURN_FAILED_USER_NOT_BORROW, "ERROR: Cannot borrow or return book - user dont borrow this book.")\
+    X(BOOK_BORROW_RETURN_FAILED_UNKNOWN_MODE, "Error: Unknow the error when borrowing or return book.")\
     X(BOOK_RETURN_OK, "Return book successfully.") \
     X(BOOK_SERCH_NOT_FOUND, "Error: Serach book not found.") \
-    X(BOOK_SERCH_OK, "") 
+    X(BOOK_SERCH_OK, "") \
+    X(BOOK_BORROWED_SHOW_NOT_FOUND, "ERROR: There is no book borrowed.") \
+    X(BOOK_BORROWED_SHOW_OK, "")
 
 typedef enum {
 #define X(code, msg) code,
