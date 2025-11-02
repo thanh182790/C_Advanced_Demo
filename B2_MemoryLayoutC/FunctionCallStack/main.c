@@ -12,6 +12,7 @@ void funcA(void)
 {
     int n = 5;
     int m = 7;
+    char largeLocalBuf[10*1024*1024]; /* 10MB */
     funcB(n, m);
 }
 
