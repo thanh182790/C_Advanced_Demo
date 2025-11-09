@@ -30,7 +30,6 @@ void System_init(void)
 void System_run(void)
 {
     static uint8_t s_localCounter = 0;
-    SystemState_t retState = SYS_IDLE;
 
     s_tickCounter++;
     s_localCounter++;
