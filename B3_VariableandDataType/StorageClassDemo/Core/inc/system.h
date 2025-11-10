@@ -1,8 +1,5 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
-#include "types.h"
-#include "registers.h"
-
 #ifdef __cplusplus
 extern "C"
 {

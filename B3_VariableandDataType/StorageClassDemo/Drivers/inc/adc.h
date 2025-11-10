@@ -1,10 +1,10 @@
 #ifndef ADC_H
 #define ADC_H
-#include "types.h"
+#include <stdint.h>
 
 extern volatile uint16_t g_adcDataReg;
 
 void adcInit(void);
-uint16_t adcRead(void);
+void adcRead(void);
 
 #endif

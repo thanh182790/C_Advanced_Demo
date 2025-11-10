@@ -5,13 +5,13 @@
 
 volatile uint16_t g_adcDataReg = 0;
 
-void adcInit(void) {
+void adcInit(void)
+{
     srand((unsigned)time(NULL));
     printf("[ADC] Initialized.\n");
 }
 
-uint16_t adcRead(void) {
-    // simulate changing value
+void adcRead(void)
+{
     g_adcDataReg = rand() % 1024;
-    return g_adcDataReg;
 }
