@@ -3,10 +3,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-/* ===============================================
- * 1. X-MACRO: TỰ ĐỘNG SINH ENUM + eventToString()
- * =============================================== */
-
 #define EVENT_LIST(X)                      \
     X(TEMPERATURE, 1, "Temperature Event") \
     X(HUMIDITY, 2, "Humidity Event")       \

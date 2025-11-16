@@ -4,7 +4,7 @@
 
 typedef struct
 {
-    uint8_t mode;
+    uint8_t mode;   /* dia chi ma CPU truy cap de  doc mode  chia het cho sizof(mode)*/
     uint16_t threshold;
     uint8_t channel;
     uint32_t timestamp;
@@ -112,3 +112,4 @@ int main(void)
 
     return 0;
 }
+
