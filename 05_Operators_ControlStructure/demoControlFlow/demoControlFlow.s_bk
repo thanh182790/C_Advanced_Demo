@@ -1,0 +1,796 @@
+	.file	"demoControlFlow.c"
+	.text
+	.globl	systemRegister
+	.bss
+	.align 4
+	.type	systemRegister, @object
+	.size	systemRegister, 4
+systemRegister:
+	.zero	4
+	.text
+	.type	complexWork, @function
+complexWork:
+.LFB0:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	movl	%edi, -4(%rbp)
+	movl	%esi, -8(%rbp)
+	movl	-8(%rbp), %eax
+	imull	$1234567, %eax, %eax
+	xorl	%eax, -4(%rbp)
+	movl	-8(%rbp), %edx
+	movslq	%edx, %rax
+	imulq	$1717986919, %rax, %rax
+	shrq	$32, %rax
+	sarl	%eax
+	movl	%edx, %ecx
+	sarl	$31, %ecx
+	subl	%ecx, %eax
+	movl	%eax, %ecx
+	sall	$2, %ecx
+	addl	%eax, %ecx
+	movl	%edx, %eax
+	subl	%ecx, %eax
+	movl	%eax, %ecx
+	roll	%cl, -4(%rbp)
+	movl	-8(%rbp), %edx
+	movl	%edx, %eax
+	sall	$3, %eax
+	addl	%edx, %eax
+	sall	$2, %eax
+	addl	%edx, %eax
+	addl	%eax, -4(%rbp)
+	movl	-4(%rbp), %eax
+	shrl	$3, %eax
+	xorl	%eax, -4(%rbp)
+	movl	-8(%rbp), %edx
+	movl	%edx, %eax
+	addl	%eax, %eax
+	addl	%edx, %eax
+	sall	$2, %eax
+	addl	%edx, %eax
+	addl	$7, %eax
+	movl	%eax, %edx
+	movl	-4(%rbp), %eax
+	imull	%edx, %eax
+	movl	%eax, -4(%rbp)
+	movl	-4(%rbp), %eax
+	popq	%rbp
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE0:
+	.size	complexWork, .-complexWork
+	.globl	processDeviceIf
+	.type	processDeviceIf, @function
+processDeviceIf:
+.LFB1:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	subq	$8, %rsp
+	movl	%edi, -4(%rbp)
+	cmpl	$0, -4(%rbp)
+	jne	.L4
+	movl	systemRegister(%rip), %eax
+	movl	$0, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L4:
+	cmpl	$1, -4(%rbp)
+	jne	.L6
+	movl	systemRegister(%rip), %eax
+	movl	$1, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L6:
+	cmpl	$2, -4(%rbp)
+	jne	.L7
+	movl	systemRegister(%rip), %eax
+	movl	$2, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L7:
+	cmpl	$3, -4(%rbp)
+	jne	.L8
+	movl	systemRegister(%rip), %eax
+	movl	$3, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L8:
+	cmpl	$4, -4(%rbp)
+	jne	.L9
+	movl	systemRegister(%rip), %eax
+	movl	$4, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L9:
+	cmpl	$5, -4(%rbp)
+	jne	.L10
+	movl	systemRegister(%rip), %eax
+	movl	$5, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L10:
+	cmpl	$6, -4(%rbp)
+	jne	.L11
+	movl	systemRegister(%rip), %eax
+	movl	$6, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L11:
+	cmpl	$7, -4(%rbp)
+	jne	.L12
+	movl	systemRegister(%rip), %eax
+	movl	$7, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L12:
+	cmpl	$8, -4(%rbp)
+	jne	.L13
+	movl	systemRegister(%rip), %eax
+	movl	$8, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L13:
+	cmpl	$9, -4(%rbp)
+	jne	.L14
+	movl	systemRegister(%rip), %eax
+	movl	$9, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L14:
+	cmpl	$10, -4(%rbp)
+	jne	.L15
+	movl	systemRegister(%rip), %eax
+	movl	$10, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L15:
+	cmpl	$11, -4(%rbp)
+	jne	.L16
+	movl	systemRegister(%rip), %eax
+	movl	$11, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L16:
+	cmpl	$12, -4(%rbp)
+	jne	.L17
+	movl	systemRegister(%rip), %eax
+	movl	$12, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L17:
+	cmpl	$13, -4(%rbp)
+	jne	.L18
+	movl	systemRegister(%rip), %eax
+	movl	$13, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L18:
+	cmpl	$14, -4(%rbp)
+	jne	.L19
+	movl	systemRegister(%rip), %eax
+	movl	$14, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L19:
+	cmpl	$15, -4(%rbp)
+	jne	.L20
+	movl	systemRegister(%rip), %eax
+	movl	$15, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L20:
+	cmpl	$16, -4(%rbp)
+	jne	.L21
+	movl	systemRegister(%rip), %eax
+	movl	$16, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L21:
+	cmpl	$17, -4(%rbp)
+	jne	.L22
+	movl	systemRegister(%rip), %eax
+	movl	$17, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L22:
+	cmpl	$18, -4(%rbp)
+	jne	.L23
+	movl	systemRegister(%rip), %eax
+	movl	$18, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L23:
+	cmpl	$19, -4(%rbp)
+	jne	.L24
+	movl	systemRegister(%rip), %eax
+	movl	$19, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L24:
+	cmpl	$20, -4(%rbp)
+	jne	.L25
+	movl	systemRegister(%rip), %eax
+	movl	$20, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L25:
+	cmpl	$21, -4(%rbp)
+	jne	.L26
+	movl	systemRegister(%rip), %eax
+	movl	$21, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L26:
+	cmpl	$22, -4(%rbp)
+	jne	.L27
+	movl	systemRegister(%rip), %eax
+	movl	$22, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L27:
+	cmpl	$23, -4(%rbp)
+	jne	.L28
+	movl	systemRegister(%rip), %eax
+	movl	$23, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L28:
+	cmpl	$24, -4(%rbp)
+	jne	.L29
+	movl	systemRegister(%rip), %eax
+	movl	$24, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L29:
+	cmpl	$25, -4(%rbp)
+	jne	.L30
+	movl	systemRegister(%rip), %eax
+	movl	$25, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L30:
+	cmpl	$26, -4(%rbp)
+	jne	.L31
+	movl	systemRegister(%rip), %eax
+	movl	$26, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L31:
+	cmpl	$27, -4(%rbp)
+	jne	.L32
+	movl	systemRegister(%rip), %eax
+	movl	$27, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L32:
+	cmpl	$28, -4(%rbp)
+	jne	.L33
+	movl	systemRegister(%rip), %eax
+	movl	$28, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L33:
+	cmpl	$29, -4(%rbp)
+	jne	.L34
+	movl	systemRegister(%rip), %eax
+	movl	$29, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L34:
+	cmpl	$30, -4(%rbp)
+	jne	.L35
+	movl	systemRegister(%rip), %eax
+	movl	$30, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L36
+.L35:
+	cmpl	$31, -4(%rbp)
+	jne	.L36
+	movl	systemRegister(%rip), %eax
+	movl	$31, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+.L36:
+	nop
+	leave
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE1:
+	.size	processDeviceIf, .-processDeviceIf
+	.globl	processDeviceSwitch
+	.type	processDeviceSwitch, @function
+processDeviceSwitch:
+.LFB2:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	subq	$8, %rsp
+	movl	%edi, -4(%rbp)					/* %eax = code (compiler lấy giá trị case) */
+	cmpl	$31, -4(%rbp)					/* Kiểm tra: nếu code > 31 (max case) → không dùng jump table */
+	ja	.L72
+	movl	-4(%rbp), %eax					/* # %eax = code */
+	leaq	0(,%rax,4), %rdx				/* %rdx = code * 4  (mỗi entry trong jump table là 4 byte offset) */
+	leaq	.L40(%rip), %rax				/* %rax = địa chỉ base của jump table (label .L40) */
+	movl	(%rdx,%rax), %eax				/* load offset = table[code] */
+	cltq
+	leaq	.L40(%rip), %rdx		
+	addq	%rdx, %rax						/* %rax = base + offset = địa chỉ handler thực sự */
+	notrack jmp	*%rax						/* # NHẢY THẲNG tới handler tương ứng */
+	.section	.rodata
+	.align 4
+	.align 4
+.L40:
+	.long	.L71-.L40
+	.long	.L70-.L40
+	.long	.L69-.L40
+	.long	.L68-.L40
+	.long	.L67-.L40
+	.long	.L66-.L40
+	.long	.L65-.L40
+	.long	.L64-.L40
+	.long	.L63-.L40
+	.long	.L62-.L40
+	.long	.L61-.L40
+	.long	.L60-.L40
+	.long	.L59-.L40
+	.long	.L58-.L40
+	.long	.L57-.L40
+	.long	.L56-.L40
+	.long	.L55-.L40
+	.long	.L54-.L40
+	.long	.L53-.L40
+	.long	.L52-.L40
+	.long	.L51-.L40
+	.long	.L50-.L40
+	.long	.L49-.L40
+	.long	.L48-.L40
+	.long	.L47-.L40
+	.long	.L46-.L40
+	.long	.L45-.L40
+	.long	.L44-.L40
+	.long	.L43-.L40
+	.long	.L42-.L40
+	.long	.L41-.L40
+	.long	.L39-.L40
+	.text
+.L71:
+	movl	systemRegister(%rip), %eax
+	movl	$0, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L70:
+	movl	systemRegister(%rip), %eax
+	movl	$1, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L69:
+	movl	systemRegister(%rip), %eax
+	movl	$2, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L68:
+	movl	systemRegister(%rip), %eax
+	movl	$3, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L67:
+	movl	systemRegister(%rip), %eax
+	movl	$4, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L66:
+	movl	systemRegister(%rip), %eax
+	movl	$5, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L65:
+	movl	systemRegister(%rip), %eax
+	movl	$6, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L64:
+	movl	systemRegister(%rip), %eax
+	movl	$7, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L63:
+	movl	systemRegister(%rip), %eax
+	movl	$8, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L62:
+	movl	systemRegister(%rip), %eax
+	movl	$9, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L61:
+	movl	systemRegister(%rip), %eax
+	movl	$10, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L60:
+	movl	systemRegister(%rip), %eax
+	movl	$11, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L59:
+	movl	systemRegister(%rip), %eax
+	movl	$12, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L58:
+	movl	systemRegister(%rip), %eax
+	movl	$13, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L57:
+	movl	systemRegister(%rip), %eax
+	movl	$14, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L56:
+	movl	systemRegister(%rip), %eax
+	movl	$15, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L55:
+	movl	systemRegister(%rip), %eax
+	movl	$16, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L54:
+	movl	systemRegister(%rip), %eax
+	movl	$17, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L53:
+	movl	systemRegister(%rip), %eax
+	movl	$18, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L52:
+	movl	systemRegister(%rip), %eax
+	movl	$19, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L51:
+	movl	systemRegister(%rip), %eax
+	movl	$20, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L50:
+	movl	systemRegister(%rip), %eax
+	movl	$21, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L49:
+	movl	systemRegister(%rip), %eax
+	movl	$22, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L48:
+	movl	systemRegister(%rip), %eax
+	movl	$23, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L47:
+	movl	systemRegister(%rip), %eax
+	movl	$24, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L46:
+	movl	systemRegister(%rip), %eax
+	movl	$25, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L45:
+	movl	systemRegister(%rip), %eax
+	movl	$26, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L44:
+	movl	systemRegister(%rip), %eax
+	movl	$27, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L43:
+	movl	systemRegister(%rip), %eax
+	movl	$28, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L42:
+	movl	systemRegister(%rip), %eax
+	movl	$29, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L41:
+	movl	systemRegister(%rip), %eax
+	movl	$30, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	jmp	.L38
+.L39:
+	movl	systemRegister(%rip), %eax
+	movl	$31, %esi
+	movl	%eax, %edi
+	call	complexWork
+	movl	%eax, systemRegister(%rip)
+	nop
+.L38:
+.L72:
+	nop
+	leave
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE2:
+	.size	processDeviceSwitch, .-processDeviceSwitch
+	.section	.rodata
+.LC0:
+	.string	"---Loop %d---\n"
+.LC2:
+	.string	"  IF-ELSE: %.3f sec\n"
+.LC3:
+	.string	"  SWITCH-CASE: %.3f sec\n\n"
+	.text
+	.globl	main
+	.type	main, @function
+main:
+.LFB3:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	subq	$32, %rsp
+	movl	$30000000, -20(%rbp)
+	movl	$0, -32(%rbp)
+	jmp	.L74
+.L79:
+	movl	-32(%rbp), %eax
+	movl	%eax, %esi
+	leaq	.LC0(%rip), %rax
+	movq	%rax, %rdi
+	movl	$0, %eax
+	call	printf@PLT
+	call	clock@PLT
+	movq	%rax, -16(%rbp)
+	movl	$0, -28(%rbp)
+	jmp	.L75
+.L76:
+	movl	-28(%rbp), %eax
+	cltd
+	shrl	$27, %edx
+	addl	%edx, %eax
+	andl	$31, %eax
+	subl	%edx, %eax
+	movl	%eax, %edi
+	call	processDeviceIf
+	addl	$1, -28(%rbp)
+.L75:
+	movl	-28(%rbp), %eax
+	cmpl	-20(%rbp), %eax
+	jl	.L76
+	call	clock@PLT
+	movq	%rax, -8(%rbp)
+	movq	-8(%rbp), %rax
+	subq	-16(%rbp), %rax
+	pxor	%xmm0, %xmm0
+	cvtsi2sdq	%rax, %xmm0
+	movsd	.LC1(%rip), %xmm1
+	divsd	%xmm1, %xmm0
+	movq	%xmm0, %rax
+	movq	%rax, %xmm0
+	leaq	.LC2(%rip), %rax
+	movq	%rax, %rdi
+	movl	$1, %eax
+	call	printf@PLT
+	movl	$0, systemRegister(%rip)
+	call	clock@PLT
+	movq	%rax, -16(%rbp)
+	movl	$0, -24(%rbp)
+	jmp	.L77
+.L78:
+	movl	-24(%rbp), %eax
+	cltd
+	shrl	$27, %edx
+	addl	%edx, %eax
+	andl	$31, %eax
+	subl	%edx, %eax
+	movl	%eax, %edi
+	call	processDeviceSwitch
+	addl	$1, -24(%rbp)
+.L77:
+	movl	-24(%rbp), %eax
+	cmpl	-20(%rbp), %eax
+	jl	.L78
+	call	clock@PLT
+	movq	%rax, -8(%rbp)
+	movq	-8(%rbp), %rax
+	subq	-16(%rbp), %rax
+	pxor	%xmm0, %xmm0
+	cvtsi2sdq	%rax, %xmm0
+	movsd	.LC1(%rip), %xmm1
+	divsd	%xmm1, %xmm0
+	movq	%xmm0, %rax
+	movq	%rax, %xmm0
+	leaq	.LC3(%rip), %rax
+	movq	%rax, %rdi
+	movl	$1, %eax
+	call	printf@PLT
+	addl	$1, -32(%rbp)
+.L74:
+	cmpl	$19, -32(%rbp)
+	jle	.L79
+	movl	$0, %eax
+	leave
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE3:
+	.size	main, .-main
+	.section	.rodata
+	.align 8
+.LC1:
+	.long	0
+	.long	1093567616
+	.ident	"GCC: (Ubuntu 11.4.0-1ubuntu1~22.04.2) 11.4.0"
+	.section	.note.GNU-stack,"",@progbits
+	.section	.note.gnu.property,"a"
+	.align 8
+	.long	1f - 0f
+	.long	4f - 1f
+	.long	5
+0:
+	.string	"GNU"
+1:
+	.align 8
+	.long	0xc0000002
+	.long	3f - 2f
+2:
+	.long	0x3
+3:
+	.align 8
+4:
