@@ -1,0 +1,56 @@
+1. Check file with information debug 
+- $ file ledRgbDemo
+
+2. Start debug 
+- gdb ./ledRgbDemo
+or with a program has input argument
+- gdb --args ./ledRgbDemo 15
+
+3. Step, breakpoint, next
+- step: go to next line ( into a function )
+- next: go over to a function 
+- b main
+- b ledInit
+- b driver/ledDriver.c:24
+- i b
+
+4. break point with condition
+- break ledSetPixelColor if index == 0
+
+5. display information after each commdn in gdb 
+- display index
+- display/x ledBuffer[index]
+
+6. Show info CPU register
+- info registers
+
+7. show by command print
+- print/<format> <expression>
+- print/d index
+- print/x ledBuffer[index]  /*Hexadecimal*/
+
+8. show GUI
+- layout src
+- layout regs
+- layout asm
+- layout split
+
+9. Check value in address
+- x/<count><format><size> <address>
+- x/10wx ledBuffer  /* see 10 element buffer */
+- x/4bx &ledBuffer[index] /* see each byte  */
+
+10. watchpoint
+- watch ledCount
+- continue
+
+11. loging
+- set logging file gdb.log
+- set logging overwrite on
+- set logging on  /* Start save log to file gdb.log */
+- set logging off /* turn off log */
+
+12. attach process
+- gdb ./ledRgbDemo <PID>
+
+
