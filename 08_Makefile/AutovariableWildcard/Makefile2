@@ -1,0 +1,7 @@
+CC = gcc
+CFLAGS = -Wall -Wextra -g
+
+app: main.o util.o
+
+clean:
+	rm -rf *.o

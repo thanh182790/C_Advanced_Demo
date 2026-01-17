@@ -1,0 +1,16 @@
+CC = gcc
+CFLAGS = -Wall -Wextra -g
+
+OBJS = main.o util.o
+
+app: $(OBJS)
+	$(CC) $^ -o $@
+
+# Static pattern rule
+$(OBJS): %.o: %.c
+	@echo "Compiling $< -> $@"
+	$(CC) -c $(CFLAGS) $< -o $@
+
+clean:
+	rm -f app *.o
+
