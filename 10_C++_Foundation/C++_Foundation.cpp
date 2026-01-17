@@ -25,79 +25,118 @@ int main(void)
 #endif
 
 /* Chuỗi (string)
-    - Trong C: sử dụng mảng các ký tự: char str[];
-    - Trong C++: có kiểu dữ liệu string.
-        + Quản lý bộ nhớ tự động: Không cần phải lo lắng về việc cấp phát hoặc giải phóng bộ nhớ cho chuỗi.
-          string sẽ tự động điều chỉnh kích thước khi bạn thêm hoặc xóa ký tự.
+1. Chuỗi trong C:
+   - Bản chất: mảng các ký tự `char[]` kết thúc bằng ký tự null '\0'.
+   - Không tự quản lý bộ nhớ.
+   - Kích thước cố định tại thời điểm khai báo (hoặc phải malloc/realloc).
+   - Các hàm thao tác chuỗi (strcpy, strcat, strlen, ...) không an toàn
+     nếu lập trình viên không tự kiểm soát boundary.
 
-        + Nhiều hàm tiện ích: string đi kèm với nhiều hàm hữu ích như size(), length(), find(), substr(),...
+   -> Lỗi thường gặp:
+      + Buffer overflow
+      + Quên '\0'
+      + Memory leak
+      + Undefined behavior
+
+2. Chuỗi trong C++ (std::string):
+   - Bản chất: một class quản lý buffer char động bên trong.
+   - Tự động cấp phát / giải phóng bộ nhớ.
+   - Biết rõ kích thước chuỗi (size()).
+   - Luôn đảm bảo chuỗi hợp lệ.
+   - Nhiều hàm tiện ích: string đi kèm với nhiều hàm hữu ích như size(), length(), find(), substr(),...
           giúp thao tác với chuỗi dễ dàng hơn rất nhiều.
-*/
+ */
 
-#if 0
-#include <iostream>
-#include <string>
-
+#if 0 
+#include <stdio.h>
+#include <string.h>
+/*
+ * Nối chuỗi trong C:
+ * - Phải tự tính kích thước buffer
+ * - Compiler sẽ không phát hiện được lỗi trường hợp kich thước không đủ
+ * */
 int main() {
-    // Mảng char[], dùng trong C
-    char str_c[] = "Viet";
+    char a[20] = "Hello ";  
+    char b[] = "World";
 
-    // string
-    std::string str_cpp = "Dev";
-    std::cout << "Kich thuoc chuoi: " << str_cpp.length() << std::endl;
-    
-    str_cpp += " Linux";
-    std::cout << "Chuoi sau khi noi: " << str_cpp << std::endl;
+    // Lập trình viên phải đảm bảo a đủ lớn
+    strcat(a, b);
 
+    printf("Result: %s\n", a);
     return 0;
 }
 #endif
 
-/* Từ khóa auto (C++11):
-    - Từ khóa auto cho phép trình biên dịch tự động suy ra kiểu dữ liệu của biến dựa trên giá trị khởi tạo của nó.
-      Điều này giúp mã nguồn ngắn gọn và dễ đọc hơn, đặc biệt khi làm việc với các kiểu dữ liệu phức tạp.
-    - Ví dụ:
-        auto x = 10; // trình biên dịch hiểu x là int
-        auto pi = 3.14; // trình biên dịch hiểu pi là double
-        auto name = "Dev Linux"; // trình biên dịch hiểu name là const char*
-*/
-
-/* Hàm nạp chồng (Function Overloading)
-    - Hàm nạp chồng là khả năng của C++ cho phép chúng ta định nghĩa nhiều hàm cùng tên nhưng có tham số khác nhau
-      (về số lượng, kiểu dữ liệu, hoặc cả hai). Trình biên dịch sẽ tự động chọn hàm phù hợp dựa trên các tham 
-      số được truyền vào khi hàm được gọi.
-*/
-
 #if 0
 #include <iostream>
-
-// Hàm nạp chồng với tham số kiểu int
-int add(int a, int b) {
-    return a + b;
-}
-
-// Hàm nạp chồng với tham số kiểu double
-double add(double a, double b) {
-    return a + b;
-}
-
-// Hàm nạp chồng với 3 tham số: 2 kiểu int, 1 float
-float add(int a, int b, float c) {
-    return a + b + c;
-}
-
+#include <string>
+/* Nối chuỗi trong C++:
+ * - std::string tự quản lý bộ nhớ
+ * - operator +
+ * */
 int main() {
-    // Gọi hàm add với tham số int, trình biên dịch chọn hàm add(int, int)
-    std::cout << "Tong so nguyen: " << add(5, 10) << std::endl;
+    std::string a = "Hello ";
+    std::string b = "World";
 
-    // Gọi hàm add với tham số double, trình biên dịch chọn hàm add(double, double)
-    std::cout << "Tong so thuc: " << add(5.5, 10.2) << std::endl;
+    a += b;
 
-    // Gọi hàm add với 3 tham số, trình biên dịch chọn hàm add(int, int, float)
-    std::cout << "Tong so thuc: " << add(1, 2, 5.5) << std::endl;
-
+    std::cout << "Result: " << a << std::endl;
     return 0;
 }
+#endif
+
+#if 0
+/*
+ * Copy và Replace trong C:
+ *  - Phải đảm bảo dest đủ lớn
+ *  - Replace dễ làm hỏng chuỗi
+ *
+ */
+
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char src[] = "Hello World";
+    char dest[20];
+
+    // Copy
+    strcpy(dest, src);
+
+    // Replace 'World' -> 'C'
+    char* pos = strstr(dest, "World");
+    if (pos != NULL) {
+        strcpy(pos, "C");
+    }
+
+    printf("Result: %s\n", dest);
+    return 0;
+}
+#endif
+
+#if 0
+/*
+ * Copy và Replace trong C++:
+ * - Copy đơn giản bằng operator =
+ *
+ */
+
+#include <iostream>
+#include <string>
+
+int main() {
+    std::string src = "Hello World";
+
+    // Copy
+    std::string dest = src;
+
+    // Replace
+    dest.replace(dest.find("World"), 5, "C++");
+
+    std::cout << "Result: " << dest << std::endl;
+    return 0;
+}
+
 #endif
 
 /* Tham chiếu (References)
@@ -141,6 +180,305 @@ int main() {
 }
 #endif
 
+/* Từ khóa auto (C++11):
+    - auto không phải là kiểu dữ liệu. 
+        -> Nó là placeholder để compiler suy luận kiểu tại compile-time
+    - Từ khóa auto cho phép trình biên dịch tự động suy ra kiểu dữ liệu của biến dựa trên giá trị khởi tạo của nó.
+      Điều này giúp mã nguồn ngắn gọn và dễ đọc hơn, đặc biệt khi làm việc với các kiểu dữ liệu phức tạp.
+    - auto bắt buộc phải có giá trị khởi tạo
+      Compiler suy luận kiểu từ biểu thức bên phải
+    - Ví dụ:
+        auto x = 10; // trình biên dịch hiểu x là int
+        auto pi = 3.14; // trình biên dịch hiểu pi là double
+        auto name = "Dev Linux"; // trình biên dịch hiểu name là const char*
+*/
+
+#if 0
+
+#include <iostream>
+#include <type_traits>
+
+/*
+ * Dùng static_assert và decltype để kiểm tra kiểu của 1 biên
+ * Nêu sai kiểu thì biên dịch lỗi và text sẽ được hiển thị trong compile phase. 
+ */
+#define CHECK_TYPE(expr, type) \
+    static_assert(std::is_same<decltype(expr), type>::value, "Type mismatch: " #expr)
+
+#define CHECK_CONST(expr) \
+    static_assert(std::is_const<std::remove_reference<decltype(expr)>::type>::value, "Not const")
+
+#define CHECK_REF(expr) \
+    static_assert(std::is_reference<decltype(expr)>::value, "Not reference")
+
+int foo()
+{
+    return 100;
+}
+
+int main()
+{
+    std::cout << "===== LEVEL 1: BASIC TYPES =====" << std::endl;
+    {
+        auto a = 10;
+        auto b = 3.14;
+        auto c = 'c';
+
+        CHECK_TYPE(a, int);
+        CHECK_TYPE(b, double);
+        CHECK_TYPE(c, char);
+    }
+
+    std::cout << "===== LEVEL 2: POINTER =====" << std::endl;
+    {
+        int x = 10;
+        auto p = &x;
+
+        CHECK_TYPE(p, int*);
+    }
+
+    std::cout << "===== LEVEL 3: CONST =====" << std::endl;
+    {
+        const int cx = 20;
+
+        auto a = cx;          // const removed
+        const auto b = cx;    // const kept
+
+        CHECK_TYPE(a, int);
+        CHECK_TYPE(b, const int);
+
+        CHECK_CONST(b);
+    }
+
+    std::cout << "===== LEVEL 4: REFERENCE =====" << std::endl;
+    {
+        int x = 10;
+        int& r = x;
+
+        auto a = r;      // reference removed
+        auto& b = r;     // reference kept
+
+        CHECK_TYPE(a, int);
+        CHECK_TYPE(b, int&);
+
+        CHECK_REF(b);
+
+        a = 20;
+        b = 30;
+
+        std::cout << "x = " << x << std::endl; // 30
+    }
+
+    std::cout << "===== LEVEL 5: ARRAY =====" << std::endl;
+    {
+        int arr[3] = {1, 2, 3};
+
+        auto a = arr;      // decay to pointer
+        auto& b = arr;     // reference to array
+
+        CHECK_TYPE(a, int*);
+        CHECK_TYPE(b, int (&)[3]);
+    }
+
+    std::cout << "===== LEVEL 6: FUNCTION RETURN =====" << std::endl;
+    {
+        auto x = foo();
+
+        CHECK_TYPE(x, int);
+    }
+
+    std::cout << "===== LEVEL 7: EXPRESSION =====" << std::endl;
+    {
+        auto x = 10 + 3.5;   // int + double -> double
+
+        CHECK_TYPE(x, double);
+    }
+
+    std::cout << "All type checks passed successfully." << std::endl;
+    return 0;
+}
+
+#endif
+
+/* For Loop
+* Vòng lặp dựa trên phạm vi giúp mã nguồn ngắn gọn, dễ đọc và ít
+* xảy ra lỗi hơn so với vòng lặp for truyền thống.
+* Các biến thể quan trọng:
+* - Duyệt bằng bản sao (Access by Copy)
+* - Duyệt bằng tham chiếu (Access by Reference - &)
+* - Duyệt bằng tham chiếu hằng (Access by const Reference - const &)
+*/
+
+#if 0
+#include <iostream>
+
+int main()
+{
+    int arr[3] = {1, 2, 3};
+
+    std::cout << "Initial array:\n";
+    for (int x : arr)
+    {
+        std::cout << x << " ";
+    }
+    std::cout << "\n\n";
+
+    // (1) auto  -> COPY
+    std::cout << "[1] for (auto x : arr)  // copy\n";
+    for (auto x : arr)
+    {
+        x *= 10;   // modify copy only
+    }
+
+    std::cout << "After auto x loop:\n";
+    for (int x : arr)
+    {
+        std::cout << x << " ";
+    }
+    std::cout << "\n\n";
+
+    // (2) auto& -> MODIFY ORIGINAL
+    std::cout << "[2] for (auto& x : arr)  // reference\n";
+    for (auto& x : arr)
+    {
+        x *= 10;   // modify original
+    }
+
+    std::cout << "After auto& x loop:\n";
+    for (int x : arr)
+    {
+        std::cout << x << " ";
+    }
+    std::cout << "\n\n";
+
+    // (3) const auto& -> READ ONLY
+    std::cout << "[3] for (const auto& x : arr)  // read only\n";
+    for (const auto& x : arr)
+    {
+        std::cout << x << " ";
+        // x *= 10; 
+    }
+    std::cout << "\n";
+
+    return 0;
+}
+#endif 
+
+/* Hàm nạp chồng (Function Overloading)
+    - Hàm nạp chồng là khả năng của C++ cho phép chúng ta định nghĩa nhiều hàm cùng tên nhưng có tham số khác nhau
+      (về số lượng, kiểu dữ liệu, hoặc cả hai). Trình biên dịch sẽ tự động chọn hàm phù hợp dựa trên các tham 
+      số được truyền vào khi hàm được gọi.
+*/
+
+#if 0
+#include <iostream>
+
+// Hàm nạp chồng với tham số kiểu int
+int add(int a, int b) {
+    return a + b;
+}
+
+// Hàm nạp chồng với tham số kiểu double
+double add(double a, double b) {
+    return a + b;
+}
+
+// Hàm nạp chồng với 3 tham số: 2 kiểu int, 1 float
+float add(int a, int b, float c) {
+    return a + b + c;
+}
+
+int main() {
+    // Gọi hàm add với tham số int, trình biên dịch chọn hàm add(int, int)
+    std::cout << "Tong so nguyen: " << add(5, 10) << std::endl;
+
+    // Gọi hàm add với tham số double, trình biên dịch chọn hàm add(double, double)
+    std::cout << "Tong so thuc: " << add(5.5, 10.2) << std::endl;
+
+    // Gọi hàm add với 3 tham số, trình biên dịch chọn hàm add(int, int, float)
+    std::cout << "Tong so thuc: " << add(1, 2, 5.5) << std::endl;
+
+    return 0;
+}
+#endif
+
+/*
+* Namespace
+* để nhóm các thực thể (như lớp, hàm, biến) lại với nhau dưới một cái tên. Mục đích chính là để
+* tránh xung đột tên
+*/
+
+#if 0
+#include <iostream>
+
+/* Namespace đơn */
+namespace A
+{
+    int value = 10;
+
+    int add(int x)
+    {
+        return x + value;
+    }
+}
+
+/* Namespace lồng nhau */
+namespace B
+{
+    int value = 100;
+
+    namespace C
+    {
+        int value = 1000;
+
+        int add(int x)
+        {
+            return x + value;
+        }
+    }
+}
+
+/* Namespace khác nhưng trùng tên hàm */
+namespace D
+{
+    int add(int x)
+    {
+        return x + 1;
+    }
+}
+
+int main()
+{
+    std::cout << "===== BASIC NAMESPACE =====\n";
+    std::cout << "A::add(5) = " << A::add(5) << std::endl;
+
+    std::cout << "\n===== NESTED NAMESPACE =====\n";
+    std::cout << "B::C::add(5) = " << B::C::add(5) << std::endl;
+
+    std::cout << "\n===== USING NAMESPACE (LOCAL) =====\n";
+    {
+        using namespace A;
+        std::cout << "add(5) = " << add(5) << std::endl;
+    }
+
+    std::cout << "\n===== USING 2 NAMESPACES (LOCAL) =====\n";
+    {
+        using namespace A;
+        using namespace D;
+
+        // add(5);   // ambiguous -> compiler error
+
+        std::cout << "A::add(5) = " << A::add(5) << std::endl;
+        std::cout << "D::add(5) = " << D::add(5) << std::endl;
+    }
+
+    std::cout << "\n===== USING NAMESPACE (GLOBAL STYLE) =====\n";
+    using namespace B::C;
+    std::cout << "add(5) = " << add(5) << std::endl;
+
+    return 0;
+}
+#endif
 /* Hướng đối tượng (OOP) - Trái tim của C++
     - Lập trình hướng đối tượng (OOP):
         + Lập trình hướng đối tượng là một mô hình lập trình dựa trên khái niệm "đối tượng", 
