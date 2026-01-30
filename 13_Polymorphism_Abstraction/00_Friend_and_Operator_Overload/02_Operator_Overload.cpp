@@ -28,9 +28,10 @@ public:
 
     // MEMBER: +=
     Vector3D& operator+=(const Vector3D& v) {
-        x += v.x;
-        y += v.y;
-        z += v.z;
+        std::cout << "NHay vao ham nap chong toan tu += \n";
+        x += 2*v.x;
+        y += 2*v.y;
+        z += 2*v.z;
         return *this;
     }
 
@@ -41,6 +42,7 @@ public:
 
     // NON-MEMBER: +
     friend Vector3D operator+(const Vector3D& a, const Vector3D& b) {
+        std::cout << "Nhay vao hàm nap chồng toán tử + friend \n";
         return Vector3D(a.x + b.x, a.y + b.y, a.z + b.z);
     }
 
