@@ -28,6 +28,12 @@ void print_arg(const char *type, void *value)
     }
 }
 
+/*
+va_list: Một kiểu dữ liệu để chứa danh sách các đối số.
+va_start(ap, last_arg): Khởi tạo danh sách đối số ap. last_arg là tên của đối số cố định cuối cùng trước khi danh sách thay đổi bắt đầu.
+va_arg(ap, type): Lấy đối số tiếp theo từ danh sách ap với kiểu dữ liệu là type.
+va_end(ap): Dọn dẹp danh sách đối số sau khi sử dụng xong
+*/
 // === LOGGER CHÍNH: DÙNG va_copy ĐỂ IN DEBUG + GHI LOG ===
 void Logger(const char *level, const char *fmt, ...)
 {
@@ -44,7 +50,7 @@ void Logger(const char *level, const char *fmt, ...)
     va_list ap_copy;
     va_copy(ap_copy, ap);
 
-    // --- PHẦN DEBUG: IN RA TẤT CẢ CÁC THAM SỐ TRUYỀN VÀO ---
+    // --- DEBUG: IN RA TẤT CẢ CÁC THAM SỐ TRUYỀN VÀO ---
     printf("-> [DEBUG] Tham so truyen vao: ");
     const char *p = fmt;
     int in_format = 0;
@@ -103,7 +109,7 @@ void Logger(const char *level, const char *fmt, ...)
     }
     printf("\n");
 
-    // --- PHẦN CHÍNH: GHI LOG THẬT SỰ DÙNG va_copy ---
+    // --- GHI LOG THẬT SỰ DÙNG va_copy ---
     printf("[%s] [%s] ", t, level);
     vprintf(fmt, ap_copy); // DÙNG BẢN SAO
     printf("\n");

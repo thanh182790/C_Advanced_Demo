@@ -43,7 +43,7 @@ int main() {
     // ===================================================================
     // 3. Dùng lseek() để quay con trỏ về đầu file
     // ===================================================================
-    if (lseek(fd, 0, SEEK_SET) == -1) {
+    if (lseek(fd, 10, SEEK_SET) == -1) {
         write(STDERR_FILENO, "Loi lseek!\n", 11);
         close(fd);
         return 1;

@@ -53,9 +53,9 @@ typedef struct
 
 typedef union
 {
-    Tempevent_t temp;
-    Humidityevent_t hum;
-    Logevent_t log;
+    Tempevent_t temp;    /* 8 byte */
+    Humidityevent_t hum; /* 4 byte */
+    Logevent_t log;  /* 36 byte */
     uint8_t raw[MAX_PAYLOAD_SIZE];
 } Payload_t;
 

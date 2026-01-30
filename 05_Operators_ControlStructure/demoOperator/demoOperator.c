@@ -11,7 +11,7 @@
 
 typedef union
 {
-    double f;
+    double f;  //8 byte = 64 bit 
     uint64_t bits;
 } fp64_t;
 
@@ -33,13 +33,11 @@ void example_float_compare()
         printf("Direct compare: a != b (expected)\n");
 
     // Correct comparison using epsilon
-    /*
     double epsilon = 1e-12;
     if (fabs(a.f - b.f) < epsilon)
         printf("Approx compare with epsilon: a ≈ b (correct)\n");
     else
         printf("Approx compare with epsilon: a NOT ≈ b\n");
-    */
 
     printf("\n");
 }
@@ -81,7 +79,7 @@ void example_logic_timing()
      *  Left side is FALSE → short-circuit → A() never runs
      ************************************************************/
     start = clock();
-    ret = (0 && slow_function_A());
+    ret = (slow_function_A() && 0);
     end = clock();
     printf("Case 1: 0 && slow_function_A(): result=%d, time=%.3f sec\n",
            ret, (double)(end - start) / CLOCKS_PER_SEC);
@@ -101,7 +99,7 @@ void example_logic_timing()
      *  Left side is TRUE → short-circuit → B() never runs
      ************************************************************/
     start = clock();
-    ret = (1 || slow_function_B());
+    ret = (slow_function_B() || 0);
     end = clock();
     printf("Case 3: 1 || slow_function_B(): result=%d, time=%.3f sec\n",
            ret, (double)(end - start) / CLOCKS_PER_SEC);

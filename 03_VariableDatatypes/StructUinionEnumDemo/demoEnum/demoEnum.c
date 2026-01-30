@@ -7,7 +7,7 @@
     X(TEMPERATURE, 1, "Temperature Event") \
     X(HUMIDITY, 2, "Humidity Event")       \
     X(LOG_MESSAGE, 100, "Log Message")     \
-    X(UNKNOW, 0, "Unknow Event")
+    X(UNKNOW, 0, "Unknow Event") 
 
 typedef enum
 {
