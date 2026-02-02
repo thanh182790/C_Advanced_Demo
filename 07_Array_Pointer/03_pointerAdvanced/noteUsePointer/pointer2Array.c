@@ -34,13 +34,13 @@ int main()
 
     printf("\n===== DEMO 3: Pointer arithmetic difference =====\n");
 
-    int arr_test[3] = {10, 20, 30};
+    int arr_test[3] = {17286,4660 , 30};
 
     int *p_int = arr_test;
     char *p_char = (char *)arr_test;
 
     printf("int*   p_int + 1   -> %p (moves 4 bytes)\n", (void *)(p_int + 1));
-    printf("char*  p_char + 1  -> %p (moves 1 byte)\n", (void *)(p_char + 1));
+    printf("char*  p_char + 1  -> %d (moves 1 byte)\n", *(char *)(p_char + 1));
 
     return 0;
 }

@@ -10,7 +10,7 @@ void uart_init(void)
 
 void uart_register_callback(uart_rx_callback_t cb)
 {
-    app_callback = cb;
+    app_callback = cb;   //uart_register_callback(app_uart_rx_handler);  ----> app_callback = app_uart_rx_handler;
     printf("[DRIVER] APP callback registered!\n");
 }
 
@@ -22,7 +22,7 @@ void uart_simulate_receive(const uint8_t *data, size_t len)
     if (app_callback)
     {
         printf("[DRIVER] Calling APP callback...\n");
-        app_callback(data, len);
+        app_callback(data, len);    //app_uart_rx_handler(data, len);
     }
     else
     {
