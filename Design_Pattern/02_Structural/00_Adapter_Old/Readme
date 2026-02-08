@@ -1,0 +1,62 @@
+/******************************************************************************
+ * ADAPTER PATTERN (C / EMBEDDED SYSTEMS)
+ *
+ * 1. Adapter Pattern là gì
+ * ---------------------------------------------------------------------------
+ * - Adapter Pattern là một Structural Design Pattern.
+ * - Mục đích: chuyển đổi giao diện (interface) của một module / driver hiện có
+ *   thành một interface khác mà client mong muốn.
+ * - Adapter cho phép các module không tương thích về interface có thể làm việc
+ *   với nhau mà KHÔNG cần sửa code gốc.
+ *
+ *
+ * 2. Adapter Pattern rất quan trọng trong C / Embedded
+ * ---------------------------------------------------------------------------
+ * - Trong lập trình nhúng, chúng ta thường:
+ *   + Dùng driver của vendor (STM32, NXP, ESP, ROM code, closed-source)
+ *   + Dùng legacy code viết từ nhiều năm trước
+ *   + Không được phép hoặc không nên sửa code cũ
+ *
+ * - Adapter giúp:
+ *   + Giữ nguyên code legacy
+ *   + Chuẩn hoá interface cho hệ thống mới
+ *   + Tách biệt tầng application và tầng driver
+ *
+ *
+ * 3. Vấn đề Adapter giải quyết (Problem)
+ * ---------------------------------------------------------------------------
+ * - Client yêu cầu một interface A
+ * - Module/Driver hiện có chỉ cung cấp interface B
+ * - Interface A và B KHÔNG tương thích
+ *
+ * => Không thể sử dụng trực tiếp module cũ cho client mới
+ *
+ *
+ * 4. Giải pháp của Adapter Pattern (Solution)
+ * ---------------------------------------------------------------------------
+ * - Tạo một Adapter nằm ở giữa:
+ *   + Adapter IMPLEMENT interface mà client cần
+ *   + Adapter BÊN TRONG gọi các hàm của module legacy
+ *
+ * - Adapter đóng vai trò "dịch" (translate) giữa hai interface
+ *
+ *
+ * 5. Adapter Pattern trong C (không có OOP)
+ * ---------------------------------------------------------------------------
+ * - Vì C không có class / inheritance:
+ *   + Interface thường được mô phỏng bằng struct chứa function pointer
+ *   + Adapter là một module cài đặt các function pointer đó
+ *
+ * - Adapter KHÔNG kế thừa, mà sử dụng:
+ *   + Composition
+ *   + Function pointer
+ *
+ * 8. Ví dụ điển hình trong Embedded Systems
+ * ---------------------------------------------------------------------------
+ * - UART Adapter: legacy UART -> UART_Driver chuẩn
+ * - SPI Adapter: vendor SPI -> SPI_Interface chung
+ * - Flash Adapter: NOR/NAND khác nhau -> FlashDriver
+ * - OS Adapter: bare-metal -> RTOS abstraction
+ *
+ *****************************************************************************/
+

@@ -23,7 +23,8 @@ static void printPixel(const uint32_t *buf, size_t index)
 int main(int argc, char *argv[])
 {
     size_t ledCount = DEFAULT_LED_COUNT;
-
+    int *p = 0;
+    *p = 23;
     /* ================= Parse argument ================= */
     if (argc > 2) {
         printUsage(argv[0]);

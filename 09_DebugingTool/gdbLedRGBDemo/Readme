@@ -53,4 +53,19 @@ or with a program has input argument
 12. attach process
 - gdb ./ledRgbDemo <PID>
 
+13. stack frame
+- bt
+- f <number>
+- i f
+- info locals
+
+14. Core dunmp
+- Kiểm tra xem OS có cho phep gen ra coredump 
+    + ulimit -c
+        --> 0 là ko tạo ra 
+    + cấu hình tạo ra coredump
+        --> ulimit -c unlimited
+    + Ghi core ra 1 thư mục cụ thể
+        --> sudo sysctl -w kernel.core_pattern=/tmp/core.%e.%p
+    + gdb ./ledRgbDemo /tmp/core.ledRgbDemo.****
 
