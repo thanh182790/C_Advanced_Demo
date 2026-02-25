@@ -71,6 +71,7 @@ int crc_receive(void* instance, uint8_t* buffer, size_t bufferLength, size_t* re
 }
 
 int crc_send(void* instance, const uint8_t* data, size_t length) {
+    printf("CrcDecorator send\n");
     CrcDecorator* decorator = (CrcDecorator*)instance;
     if (!decorator || !data || length == 0) {
         return COMM_ERROR_INVALID_PARAM;

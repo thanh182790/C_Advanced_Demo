@@ -15,7 +15,8 @@
 
 int main(void)
 {
-    int a;
+    int a(10);
+    std::cout << "Gia tri cua a la " << a << std::endl;
 
     std::cout << "Mời bạn nhập 1 số nguyên bất kỳ: " << std::endl;
     std::cin >> a;
@@ -59,7 +60,7 @@ int main() {
     char a[20] = "Hello ";  
     char b[] = "World";
 
-    // Lập trình viên phải đảm bảo a đủ lớn
+    // phải đảm bảo a đủ lớn
     strcat(a, b);
 
     printf("Result: %s\n", a);
@@ -158,21 +159,23 @@ int main() {
 
 // Truyền tham số bằng giá trị (tạo ra một bản sao)
 void func_by_value(int x) {
+    std::cout << " Dia chi cua x " << &x << std::endl;
     x = x + 10;
 }
 
 // Truyền tham số bằng tham chiếu (làm việc trên biến gốc)
 void func_by_reference(int& x) {
+    std::cout << " Dia chi cua x (ref)" << &x << std::endl;
     x = x + 10;
 }
 
 int main() {
     int a = 5;
     int b = 5;
-
+    std::cout << " Dia chi cua a " << &a << std::endl;
     func_by_value(a);
     std::cout << "Gia tri cua 'a' sau khi truyen bang gia tri: " << a << std::endl; // Vẫn là 5
-
+    std::cout << " Dia chi cua b " << &b << std::endl;
     func_by_reference(b);
     std::cout << "Gia tri cua 'b' sau khi truyen bang tham chieu: " << b << std::endl; // Là 15
 
@@ -193,7 +196,7 @@ int main() {
         auto name = "Dev Linux"; // trình biên dịch hiểu name là const char*
 */
 
-#if 1
+#if 0
 
 #include <iostream>
 #include <type_traits>
@@ -391,7 +394,7 @@ float add(int a, int b, float c) {
 
 int main() {
     // Gọi hàm add với tham số int, trình biên dịch chọn hàm add(int, int)
-    std::cout << "Tong so nguyen: " << add(5, 10) << std::endl;
+    std::cout << "Tong so nguyen: " << add(5, 2) << std::endl;
 
     // Gọi hàm add với tham số double, trình biên dịch chọn hàm add(double, double)
     std::cout << "Tong so thuc: " << add(5.5, 10.2) << std::endl;
@@ -401,6 +404,7 @@ int main() {
 
     return 0;
 }
+
 #endif
 
 /*
@@ -493,7 +497,7 @@ int main()
 *   Cú pháp: template <typename T>
 */
 
-#if 0
+#if 1
 #include <iostream>
 using namespace std;
 

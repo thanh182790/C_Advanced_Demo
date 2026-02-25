@@ -14,6 +14,7 @@ CommunicationChannel* create_encryption_decorator(CommunicationChannel* baseChan
 }
 
 int encryption_send(void* instance, const uint8_t* data, size_t length) {
+    printf("Enctuption send\n");
     EncryptionDecorator* decorator = (EncryptionDecorator*)instance;
     if (!decorator || !data || length == 0) {
         return COMM_ERROR_INVALID_PARAM;
