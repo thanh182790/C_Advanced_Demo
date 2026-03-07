@@ -1,0 +1,33 @@
+/******************************************************************************************
+  BẢNG ĐÁNH GIÁ ĐỘ PHỨC TẠP CÁC SEQUENCE CONTAINERS (BIG O NOTATION)
+  ------------------------------------------------------------------------------------------------------
+  CONTAINER        | ACCESS (RANDOM) | INSERT/ERASE (HEAD) | INSERT/ERASE (END) | INSERT/ERASE (MIDDLE) |
+  -----------------|-----------------|---------------------|--------------------|-----------------------
+  std::vector      |    O(1)         |    O(n)             |    O(1)*           |    O(n)
+  std::deque       |    O(1)         |    O(1)             |    O(1)            |    O(n)
+  std::list        |    O(n)         |    O(1)             |    O(1)            |    O(1)
+  std::forward_list|    O(n)         |    O(1)             |    N/A             |    O(1)**
+  std::array       |    O(1)         |    N/A              |    N/A             |    N/A
+  -------------------------------------------------------------------------------------------------------
+  CHÚ THÍCH:
+  * O(1)* (Vector): Là độ phức tạp trung bình (Amortized). Tốn O(n) khi phải cấp phát lại.
+  ** O(1)** (Forward_list): Chỉ O(1) khi dùng hàm `insert_after` hoặc `erase_after`.
+  N/A: Thao tác không được hỗ trợ trực tiếp do đặc thù cấu trúc dữ liệu tĩnh hoặc đơn hướng.
+  ----------------------------------------------------------------------------------------
+
+ 1. std::vector: 
+    - Ưu tiên hàng đầu cho hầu hết mọi trường hợp nhờ tính liên tục của bộ nhớ (Cache-friendly).
+    - Truy cập cực nhanh, thêm/xóa cuối rất tốt. Tránh dùng khi cần chèn/xóa ở đầu/giữa nhiều.
+ 2. std::deque: 
+    - Lựa chọn tốt nhất cho cấu trúc Hàng đợi (Queue) hoặc khi cần thao tác mạnh ở cả 2 đầu.
+    - Vẫn cho phép truy cập ngẫu nhiên nhưng chậm hơn vector một chút về mặt vật lý.
+ 3. std::list (Doubly Linked List):
+    - Dùng khi ứng dụng cần chèn/xóa ở giữa danh sách thường xuyên (như quản lý Node mạng Mesh).
+    - Không hỗ trợ [i], phải duyệt qua từng phần tử để tìm kiếm.
+ 4. std::forward_list (Singly Linked List):
+    - Phiên bản tối giản của list, tiết kiệm RAM (giảm 1 con trỏ/node).
+    - Thường dùng trong hệ thống Nhúng (Embedded) nơi bộ nhớ cực kỳ hạn chế.
+ 5. std::array:
+    - Thay thế hoàn toàn mảng C truyền thống. Dùng cho dữ liệu cố định kích thước (Compile-time).
+    - Nằm trên Stack, không tốn tài nguyên quản lý vùng nhớ Heap.
+ ******************************************************************************************/
