@@ -56,8 +56,8 @@ int main() {
     // Giả lập các sự kiện đến theo thời gian
     eventLog.push({INFO, "Nhiệt độ phòng: 25.5C"});
     eventLog.push({INFO, "Độ ẩm: 60%"});
-    eventLog.push({CRITICAL, "PHÁT HIỆN KHÓI TẠI KHO A!"}); // Sự kiện này đến sau nhưng ưu tiên cao nhất
     eventLog.push({WARNING, "Node 105 sắp hết Pin"});
+    eventLog.push({CRITICAL, "PHÁT HIỆN KHÓI TẠI KHO A!"}); // Sự kiện này đến sau nhưng ưu tiên cao nhất
 
     std::cout << "[SYSTEM] Đang có " << eventLog.size() << " sự kiện trong hàng đợi.\n" << std::endl;
 

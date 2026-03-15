@@ -7,22 +7,22 @@
  * - Cấu trúc dữ liệu bên dưới: Red-Black Tree (Cây nhị phân cân bằng).
  *
  * 2. CƠ CHẾ HOẠT ĐỘNG:
- * - Key và Value là MỘT: Giá trị bạn truyền vào chính là khóa để sắp xếp.
+ * - Key và Value là MỘT: Giá trị truyền vào chính là khóa để sắp xếp.
  * - Set không dùng toán tử `==` để kiểm tra trùng lặp.
  * - Nó coi hai phần tử A và B là trùng nhau nếu: `!(A < B) && !(B < A)`.
  * - Quy tắc chèn (Insert):
- * + Nếu giá trị CHƯA tồn tại: Cây tạo Node mới, sắp xếp lại -> Thành công.
- * + Nếu giá trị ĐÃ tồn tại: Cây từ chối (Reject), không chèn thêm -> Thất bại.
+ *      + Nếu giá trị CHƯA tồn tại: Cây tạo Node mới, sắp xếp lại -> Thành công.
+ *      + Nếu giá trị ĐÃ tồn tại: Cây từ chối (Reject), không chèn thêm -> Thất bại.
  * - Tính chất: Phần tử trong set là Read-only (không thể sửa trực tiếp).
  *
  * 3. ĐẶC ĐIỂM KỸ THUẬT:
  * - Ưu điểm:
- * + Tìm kiếm cực nhanh: O(log N).
- * + Luôn đảm bảo dữ liệu có thứ tự (Không cần hàm sort).
- * + Tự động lọc trùng (Lý tưởng để làm danh sách chặn/cho phép).
+ *      + Tìm kiếm cực nhanh:og N). O(l
+ *      + Luôn đảm bảo dữ liệu có thứ tự (Không cần hàm sort).
+ *      + Tự động lọc trùng (Lý tưởng để làm danh sách chặn/cho phép).
  * - Nhược điểm:
- * + Không thể truy cập qua chỉ số [i] (Phải dùng Iterator).
- * + Tốn RAM hơn vector do cần lưu các liên kết Trái/Phải/Cha của cây.
+ *      + Không thể truy cập qua chỉ số [i] (Phải dùng Iterator).
+ *      + Tốn RAM hơn vector do cần lưu các liên kết Trái/Phải/Cha của cây.
  *
  * 4. CÁC PHƯƠNG THỨC QUAN TRỌNG:
  * - s.insert(val) : Chèn phần tử (Trả về cặp <iterator, bool>).
@@ -35,8 +35,9 @@
  * - Chỉ nên so sánh các trường (fields) mang tính định danh (như ID, MAC Address).
  * - Các trường dữ liệu khác (như Name, Value) không nên đưa vào toán tử `<`
  *   trừ khi muốn phân biệt dựa trên cả tên.
+ * - Set đặc biệt phù hợp với những bài toán liên quan tới việc loại bỏ giá trị trùng nhau hoặc tìm kiếm nhanh.
  *******************************************************************************/
-#if 0
+#if 1
 #include <iostream>
 #include <set>
 #include <string>
@@ -56,8 +57,9 @@ int main()
 
     // 1. insert(val): Thêm phần tử
     activeNodes.insert(101);
+        activeNodes.insert(120);
     activeNodes.insert(105);
-    activeNodes.insert(120);
+
     activeNodes.insert(101); // Thử thêm trùng -> Set sẽ tự động bỏ qua (Reject)
 
     // 2. size(): Kiểm tra số lượng phần tử hiện có
@@ -108,7 +110,7 @@ int main()
 }
 #endif
 
-#if 0
+#if 1
 #include <iostream>
 #include <set>
 #include <string>
