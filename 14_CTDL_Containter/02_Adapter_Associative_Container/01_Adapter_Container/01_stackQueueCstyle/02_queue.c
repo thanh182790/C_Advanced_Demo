@@ -69,7 +69,7 @@ bool enqueue(GatewayQueue *q, Message data)
     newNode->msg = data;
     newNode->next = NULL;
 
-    if (q->rear == NULL)
+    if (q->rear == NULL) //Queue rỗng
     {
         q->front = q->rear = newNode;
     }

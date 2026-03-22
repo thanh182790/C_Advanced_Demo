@@ -98,7 +98,7 @@ int main()
     std::unordered_set<int> whiteList;
     std::unordered_map<int, DeviceInfo> activeSessions;
 
-    // --- GIAI ĐOẠN 1: KHỞI TẠO 50 NODES ---
+    // --- GIAI ĐOẠN 1: KHỞI TẠO 10 NODES ---
     for (int i = 100; i < 110; ++i)
     {
         whiteList.insert(i);

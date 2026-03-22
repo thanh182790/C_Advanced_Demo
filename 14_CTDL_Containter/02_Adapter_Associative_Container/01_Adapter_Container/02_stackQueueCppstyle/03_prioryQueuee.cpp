@@ -49,8 +49,8 @@ struct Event {
 
 int main() {
     // Khai báo Priority Queue
-    std::priority_queue<Event> eventLog;
-
+    std::priority_queue<Event> eventLog; eventLog({INFO, "Nhiệt độ phòng: 25.5C"}, {INFO, "Độ ẩm: 60%"},{WARNING, "Node 105 sắp hết Pin"}, {CRITICAL, "PHÁT HIỆN KHÓI TẠI KHO A!"} )
+    std::priority_queue<int> intQUEE;  intQUEE( 1,2,3,4,5,6,7,8,9)
     std::cout << "--- IOT GATEWAY PRIORITY DISPATCHER ---" << std::endl;
 
     // Giả lập các sự kiện đến theo thời gian

@@ -81,7 +81,7 @@ int main() {
     errorJournal.insert({105, "Pin yeu < 10%"});
     errorJournal.insert({101, "Gia tri nhiet do bat thuong"}); // ID 101 co loi thu hai
     errorJournal.insert({110, "Loi Checksum UART"});
-
+    errorJournal.insert({101, "Nhiet do tro ve binh thuong"});
     std::cout << "\n" << BOLD << MAGENTA << "=== [2] MULTIMAP: SYSTEM ERROR JOURNAL ===" << RESET << std::endl;
     
     // Không dùng được errorJournal[101]! 

@@ -37,7 +37,7 @@
  *   trừ khi muốn phân biệt dựa trên cả tên.
  * - Set đặc biệt phù hợp với những bài toán liên quan tới việc loại bỏ giá trị trùng nhau hoặc tìm kiếm nhanh.
  *******************************************************************************/
-#if 1
+#if 0
 #include <iostream>
 #include <set>
 #include <string>
@@ -57,9 +57,8 @@ int main()
 
     // 1. insert(val): Thêm phần tử
     activeNodes.insert(101);
-        activeNodes.insert(120);
+    activeNodes.insert(120);
     activeNodes.insert(105);
-
     activeNodes.insert(101); // Thử thêm trùng -> Set sẽ tự động bỏ qua (Reject)
 
     // 2. size(): Kiểm tra số lượng phần tử hiện có
