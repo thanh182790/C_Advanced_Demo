@@ -21,43 +21,47 @@ Demo: Shallow Copy vs Deep Copy
 #if 0
 #include <iostream>
 
-class Shallow {
+class Shallow
+{
 public:
-    int* data;
+    int *data;
     Shallow(int val) { data = new int(val); }
-    ~Shallow() { delete data; }
+    ~Shallow() { delete data;}
 };
 
-class Deep {
+class Deep
+{
 public:
-    int* data;
+    int *data;
     Deep(int val) { data = new int(val); }
-    
+
     // Deep copy constructor
-    Deep(const Deep& other) {
+    Deep(const Deep &other)
+    {
         data = new int(*other.data);
     }
-    
+
     ~Deep() { delete data; }
 };
 
-void shallow_demo() {
+void shallow_demo()
+{
     Shallow a(10);
-    Shallow b = a; // Shallow copy: cả a và b đều trỏ cùng data
-    // Khi ra khỏi hàm, destructor của b chạy xóa data, 
-    // sau đó destructor của a chạy lại xóa lần nữa -> gây crash/double free
+    Shallow b(a); // Có lỗi gì không ????  ---> b.data = a.data;
 }
 
-void deep_demo() {
+void deep_demo()
+{
     Deep a(10);
     Deep b = a; // Deep copy: b.data là vùng nhớ mới
     std::cout << "a.data = " << *a.data << ", b.data = " << *b.data << std::endl;
 }
 
-int main() {
-    // shallow_demo(); // Sẽ gây crash chương trình
+int main()
+{
+    // shallow_demo();
     deep_demo();
-    
+
     return 0;
 }
 #endif
@@ -69,48 +73,66 @@ Demo: Move Semantics
 */
 #if 0
 
+/*
+Vấn đề: Khi ta viết Buffer b2 = Buffer(100);
+        - Cái Buffer(100) ở bên phải là một rvalue (đối tượng tạm). Nó sẽ bị hủy ngay sau dòng đó.
+
+Cơ hội: Vì nó sắp bị hủy, tại sao ta không "ăn trộm" tài nguyên của nó?
+
+Giải pháp: Ta tạo ra một Constructor chấp nhận rvalue reference (Buffer&& other). 
+           Chiếc móc && này sẽ tóm lấy đối tượng tạm đó, cho phép ta lấy con trỏ data của nó trước khi nó tan biến.
+*/
 #include <iostream>
 #include <vector>
 #include <utility> // Thư viện chứa std::move
 
-class Buffer {
+class Buffer
+{
 public:
-    int* data;
+    int *data;
     size_t size;
 
     // 1. Constructor khởi tạo tài nguyên
-    Buffer(size_t s) : size(s) {
+    Buffer(size_t s) : size(s)
+    {
         data = new int[size];
         std::cout << "Constructor: Cap phat " << size << " phan tu.\n";
     }
 
     // 2. Copy Constructor (Deep Copy) - "Xây nhà mới, chép đồ sang"
-    Buffer(const Buffer& other) : size(other.size) {
+    Buffer(const Buffer &other) : size(other.size)
+    {
         data = new int[size];
-        for (size_t i = 0; i < size; i++) data[i] = other.data[i];
+        for (size_t i = 0; i < size; i++)
+            data[i] = other.data[i];
         std::cout << "Copy Constructor: Deep Copy tai nguyen.\n";
     }
 
     // 3. Move Constructor - "Chuyen quyen so huu chia khoa"
-    Buffer(Buffer&& other) no_base_check : data(nullptr), size(0) {
+    Buffer(Buffer &&other) : data(nullptr), size(0)
+    {
         // "Lay" tai nguyen tu doi tuong cu
-        data = other.data;
-        size = other.size;
+        this -> data = other.data;
+        this -> size = other.size;
 
         // "Xoa dau vet" o doi tuong cu (de destructor cua no khong delete nham)
         other.data = nullptr;
         other.size = 0;
-        
+
         std::cout << "Move Constructor: Chuyen quyen so huu (Owner Transfer).\n";
     }
 
-    ~Buffer() {
+    ~Buffer()
+    {
         delete[] data;
         std::cout << "Destructor: Giai phong bo nho.\n";
     }
 };
 
-int main() {
+int main()
+{
+    // int y = x +1;
+
     std::cout << "--- Khoi tao b1 ---\n";
     Buffer b1(1000000); // Gia su mang rat lon
 
@@ -119,14 +141,13 @@ int main() {
 
     std::cout << "\n--- Thuc hien Move (b3 = move(b1)) ---\n";
     // std::move ép b1 thành rvalue để kích hoạt Move Constructor
-    Buffer b3 = std::move(b1); 
+    Buffer b3 = std::move(b1); // khi gọi move thì hàm move constructor được gọi
 
     std::cout << "\n--- Ket thuc chuong trinh ---\n";
     return 0;
 }
 
-#endif 
-
+#endif
 
 /*
 III. Smart Pointer
@@ -179,37 +200,46 @@ Demo 8: unique_ptr cơ bản
 #include <memory>
 #include <string>
 
-class Resource {
+class Resource
+{
 public:
-    Resource(const std::string& name) : name_(name) {
+    Resource(const std::string &name) : name_(name)
+    {
         std::cout << "Resource " << name_ << " created." << std::endl;
     }
-    ~Resource() {
+    ~Resource()
+    {
         std::cout << "Resource " << name_ << " destroyed." << std::endl;
     }
-    void doSomething() {
+    void doSomething()
+    {
         std::cout << "Using resource " << name_ << std::endl;
     }
+
 private:
     std::string name_;
 };
 
-void processUniqueResource(std::unique_ptr<Resource> resource) {
-    resource->doSomething();
+
+void processUniqueResource(std::unique_ptr<Resource> mPtr)
+{
+    // mPtr = std::move(ptr2);
+    mPtr->doSomething();
     // Khi hàm kết thúc, resource tự động bị hủy
 }
 
-int main() {
+int main()
+{
     // Tạo unique_ptr bằng std::make_unique (an toàn)
     std::unique_ptr<Resource> ptr1 = std::make_unique<Resource>("unique_resource_1");
 
     // Lỗi: unique_ptr không thể sao chép
     // std::unique_ptr<Resource> ptr2 = ptr1;
-
     // Di chuyển quyền sở hữu từ ptr1 sang ptr2
     std::unique_ptr<Resource> ptr2 = std::move(ptr1);
 
-    if (ptr1 == nullptr) {
+    if (ptr1 == nullptr)
+    {
         std::cout << "ptr1 no longer owns the resource." << std::endl;
     }
     ptr2->doSomething();
@@ -218,7 +248,8 @@ int main() {
     processUniqueResource(std::move(ptr2));
 
     // Sau khi hàm kết thúc, ptr2 cũng không còn sở hữu tài nguyên
-    if (ptr2 == nullptr) {
+    if (ptr2 == nullptr)
+    {
         std::cout << "ptr2 no longer owns the resource after moving to function." << std::endl;
     }
 
@@ -226,7 +257,6 @@ int main() {
     return 0;
 }
 #endif
-
 
 /*
 ---------------------------------
@@ -238,19 +268,24 @@ Demo : shared_ptr và ref count
 #include <memory>
 #include <string>
 
-class SharedResource {
+class SharedResource
+{
 public:
-    SharedResource(const std::string& name) : name_(name) {
+    SharedResource(const std::string &name) : name_(name)
+    {
         std::cout << "Line " << __LINE__ << " SharedResource " << name_ << " created." << std::endl;
     }
-    ~SharedResource() {
+    ~SharedResource()
+    {
         std::cout << "Line " << __LINE__ << " SharedResource " << name_ << " destroyed." << std::endl;
     }
+
 private:
     std::string name_;
 };
 
-int main() {
+int main()
+{
     // Tạo shared_ptr bằng std::make_shared (tối ưu hóa)
     std::shared_ptr<SharedResource> ptr1 = std::make_shared<SharedResource>("shared_resource_1");
     std::cout << "Line " << __LINE__ << " Reference count: " << ptr1.use_count() << std::endl; // Output: 1
@@ -272,7 +307,6 @@ int main() {
 }
 #endif
 
-
 /*
 -------------------------------------------------------
 Demo: weak_ptr tránh memory leak vòng lặp
@@ -281,36 +315,98 @@ Demo: weak_ptr tránh memory leak vòng lặp
 #if 1
 #include <iostream>
 #include <memory>
+#include <string>
+#include <vector>
 
-class B; // Forward declaration
+// Forward declaration để Employee biết Department tồn tại
+class Department;
 
-class A {
+class Employee
+{
 public:
-    std::shared_ptr<B> b_ptr;
-    A() { std::cout << "A created." << std::endl; }
-    ~A() { std::cout << "A destroyed." << std::endl; }
+    std::string name;
+    // Sử dụng weak_ptr để trỏ ngược về Department
+    // Điều này giúp tránh vòng lặp tham chiếu (Circular Dependency)
+    // std::weak_ptr<Department> dept;
+    std::shared_ptr<Department> dept;
+    Employee(std::string n) : name(n)
+    {
+        std::cout << "[Employee] " << name << " gia nhap cong ty.\n";
+    }
+
+    ~Employee()
+    {
+        std::cout << "[Employee] " << name << " da nghi viec (bi huy).\n";
+    }
+
+    void showDepartment();
 };
 
-class B {
+class Department
+{
 public:
-    // Sử dụng weak_ptr để tránh vòng lặp sở hữu
-    std::weak_ptr<A> a_ptr;
-    B() { std::cout << "B created." << std::endl; }
-    ~B() { std::cout << "B destroyed." << std::endl; }
+    std::string deptName;
+    // Department sở hữu các Employee
+    std::vector<std::shared_ptr<Employee>> employees;
+
+    Department(std::string n) : deptName(n)
+    {
+        std::cout << "[Department] Phong " << deptName << " duoc thanh lap.\n";
+    }
+
+    ~Department()
+    {
+        std::cout << "[Department] Phong " << deptName << " bi giai the (bi huy).\n";
+    }
+
+    void addEmployee(std::shared_ptr<Employee> e)
+    {
+        employees.push_back(e);
+    }
 };
 
-int main() {
-    std::shared_ptr<A> a = std::make_shared<A>();
-    std::shared_ptr<B> b = std::make_shared<B>();
+// void Employee::showDepartment()
+// {
+//     // Để sử dụng weak_ptr, ta PHẢI chuyển nó thành shared_ptr bằng lock()
+//     if (std::shared_ptr<Department> s_ptr = dept.lock())
+//     {
+//         std::cout << "Nhan vien " << name << " dang thuoc phong: " << s_ptr->deptName << "\n";
+//     }
+//     else
+//     {
+//         std::cout << "Nhan vien " << name << ": Phong ban nay khong con ton tai!\n";
+//     }
+// }
 
-    // Thiết lập vòng lặp sở hữu
-    a->b_ptr = b;
-    b->a_ptr = a;
+int main()
+{
+    std::cout << "--- KHOI TAO HE THONG ---\n";
 
-    // Nếu b_ptr là shared_ptr, a và b sẽ không bao giờ bị hủy
-    // vì mỗi đối tượng giữ một shared_ptr đến đối tượng kia.
+    // 1. Tạo phòng ban và nhân viên
+    std::shared_ptr<Department> IT_Dept = std::make_shared<Department>("Cong Nghe Thong Tin");
+    std::shared_ptr<Employee> emp1 = std::make_shared<Employee>("Nguyen Van A");
+     std::cout << "\n--- KHOI TAO BAN DAU  ---\n";
+    std::cout << "Ref count cua IT_Dept: " << IT_Dept.use_count() << " (Chi co main giu)\n";
+    std::cout << "Ref count cua emp1: " << emp1.use_count() << "\n";
 
-    // Với weak_ptr, a và b sẽ được hủy một cách chính xác
+    // 2. Thiết lập mối quan hệ
+    IT_Dept->addEmployee(emp1);
+    emp1->dept = IT_Dept; // Gán weak_ptr
+
+    std::cout << "\n--- KIEM TRA THONG TIN ---\n";
+    std::cout << "Ref count cua IT_Dept: " << IT_Dept.use_count() << " (Chi co main giu)\n";
+    std::cout << "Ref count cua emp1: " << emp1.use_count() << "\n";
+    // emp1->showDepartment();
+
+    std::cout << "\n--- GIAI THE PHONG BAN ---\n";
+    IT_Dept.reset(); // Huỷ phòng ban sớm
+
+    std::cout << "Sau khi reset IT_Dept, Ref count cua emp1: " << emp1.use_count() << "\n\n";
+
+    // 3. Kiểm tra xem nhân viên còn biết phòng ban không
+    // emp1->showDepartment();
+
+    std::cout << "\n--- KET THUC CHUONG TRINH ---\n";
     return 0;
 }
 #endif

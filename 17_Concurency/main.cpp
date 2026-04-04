@@ -34,13 +34,15 @@ I: GIỚI THIỆU VỀ PROCESSES (TIẾN TRÌNH) VÀ THREADS (LUỒNG)
 #include <iostream>
 #include <unistd.h> // Bao gom ham getpid()
 
-void print_pid_posix() {
+void print_pid_posix()
+{
     // getpid() tra ve kieu pid_t, thuong la int
-    pid_t current_pid = getpid();
+    pid_t current_pid = getpid(); 
     std::cout << "PID cua Process hien tai (Linux): " << current_pid << std::endl;
 }
 
-int main() {
+int main()
+{
     std::cout << "--- Demo In PID tren Linux ---" << std::endl;
     print_pid_posix();
 
@@ -50,7 +52,6 @@ int main() {
     return 0;
 }
 #endif
-
 
 /*
 //================================================================================
@@ -64,7 +65,7 @@ int main() {
    * các đối số còn lại là đối số cho hàm đó.
 
 2. Function Object (Functor):
-   * Là một class hoặc struct có nạp chồng (overloading) toán tử gọi hàm **operator()()**.
+   * Là một class có nạp chồng (overloading) toán tử gọi hàm **operator()()**.
    * Ưu điểm: Cho phép lưu trữ trạng thái (data members) bên trong đối tượng, điều mà hàm thường không làm được.
 
 3. Quản lý Thread:
@@ -84,29 +85,42 @@ int main() {
 using namespace std;
 
 // Functor Demo
-class Worker {
+class Worker
+{
 private:
     int id;
+
 public:
     Worker(int i) : id(i) {}
 
     // overloading operator() de tao thanh mot Callable object
-    void operator()() {
-        for (int i = 0; i < 3; ++i) {
+    void operator()()
+    {
+        for (int i = 0; i < 3; ++i)
+        {
             cout << "Thread ID " << id << ": Lap " << i + 1 << endl;
             this_thread::sleep_for(chrono::milliseconds(100));
         }
     }
 };
 
-void NormalFunction(int id, int loopCnt) {
-    for (int i = 0; i < loopCnt; ++i) {
-        cout << "Thread ID " << id << ": Lap " << i + 1 << endl;
+void NormalFunction(int id, int loopCnt)
+{
+    for (int i = 0; i < loopCnt; ++i)
+    {
+        cout << "NormalFunction Thread ID " << id << ": Lap " << i + 1 << endl;
         this_thread::sleep_for(chrono::milliseconds(100));
     }
+
+    while (1)
+    {
+        /* code */
+    }
+    
 }
 
-int main() {
+int main()
+{
     cout << "--- Demo 2.1: Tao Thread voi Functor ---" << endl;
 
     // Tao 2 Thread su dung cung Functor class nhung trang thai (ID) khac nhau
@@ -120,8 +134,8 @@ int main() {
     // Luu y: Functor duoc truyen vao theo gia tri (copy), neu muon truyen tham chieu
     // can su dung std::ref(worker_object).
 
-    t1.join(); // Doi t1 ket thuc
-    t2.join(); // Doi t2 ket thuc
+    t1.join(); // Doi t1 ket thuc  ---> block cho ddeen khi thread t1 ket thuc 
+    t2.join(); // Doi t2 ket thuc   
     t3.join(); // Doi t3 ket thuc
 
     cout << "--- Tat ca Thread da ket thuc ---" << endl;
@@ -188,7 +202,6 @@ int main() {
 
 #endif
 
-
 /*
 //================================================================================
 // IV: TẠO THREAD VỚI MEMBER FUNCTIONS CỦA CLASS
@@ -201,7 +214,7 @@ int main() {
    * Để truyền tham chiếu (by reference), phải sử dụng **std::ref()**.
 
 2. Thread và Member Functions:
-   * Để chạy một member function (hàm thành viên) trong một Thread, đối số đầu tiên 
+   * Để chạy một member function (hàm thành viên) trong một Thread, đối số đầu tiên
      phải là **con trỏ hoặc tham chiếu đến đối tượng** chứa hàm đó.
    * Cú pháp: `std::thread( &Class::member_function, &object, arg1, arg2, ... )`
      * `&Class::member_function`: Địa chỉ của hàm thành viên.
@@ -264,7 +277,6 @@ int main() {
 
 #endif
 
-
 //=============================================================================
 // V: KHÓA MUTEX VÀ BIẾN ĐIỀU KIỆN
 //=============================================================================
@@ -279,7 +291,8 @@ int main() {
 
 2. RAII Lock Guards:
    * Sử dụng **std::lock_guard** hoặc **std::unique_lock** là cách *nên* làm để quản lý Mutex.
-   * RAII (Resource Acquisition Is Initialization): Mutex tự động khóa khi đối tượng lock_guard được tạo và tự unlock khi đối tượng bị hủy (khi ra khỏi scope), ngăn chặn lỗi quên unlock() và đảm bảo an toàn ngoại lệ.
+   * RAII (Resource Acquisition Is Initialization): Mutex tự động khóa khi đối tượng lock_guard được tạo và
+     tự unlock khi đối tượng bị hủy (khi ra khỏi scope), ngăn chặn lỗi quên unlock() và đảm bảo an toàn ngoại lệ.
    * `std::lock_guard`: Đơn giản, không thể unlock sớm.
    * `std::unique_lock`: Linh hoạt hơn, có thể unlock sớm, cho phép sử dụng với std::condition_variable.
 
@@ -295,13 +308,13 @@ int main() {
 */
 
 // Race Condition Example
-#if 0
+#if 1
 #include <iostream>
 #include <thread>
 #include <mutex>
 
-#define ENBALE_MUTEX    (1) // Thay doi thanh 1 de enabled mutex
-#define LOOP_NUMBER     (1000000)
+#define ENBALE_MUTEX (1) // Thay doi thanh 1 de enabled mutex
+#define LOOP_NUMBER (1000000)
 
 int shared_counter = 0;
 
@@ -355,7 +368,7 @@ int main() {
 }
 #endif
 
-/* Giải thích: Lệnh C++ đơn giản như `shared_counter++` không phải là một thao tác nguyên tử (atomic operation).
+/* Lệnh C++ đơn giản như `shared_counter++` không phải là một thao tác nguyên tử (atomic operation).
 Nó bao gồm ba bước:
 1. Đọc giá trị hiện tại của `shared_counter` từ bộ nhớ.
 2. Tăng giá trị đó lên 1.
@@ -389,12 +402,14 @@ std::condition_variable cv;
 std::mutex cv_mutex;
 bool is_data_ready = false;
 
-bool Check_Data_Ready() {
+bool Check_Data_Ready()
+{
     return is_data_ready;
 }
 
 // Producer
-void producer() {
+void producer()
+{
     std::this_thread::sleep_for(std::chrono::seconds(1)); // Gia dinh qua trinh tao du lieu mat 1s
 
     // Tao du lieu
@@ -413,7 +428,8 @@ void producer() {
 }
 
 // Consumer
-void consumer(int id) {
+void consumer(int id)
+{
     std::cout << "Consumer " << id << ": Dang cho du lieu." << std::endl;
     std::unique_lock<std::mutex> lock(cv_mutex);
 
@@ -432,7 +448,8 @@ void consumer(int id) {
     // Mutex tu dong mo khoa khi 'lock' bi huy
 }
 
-int main() {
+int main()
+{
     std::cout << "\n--- Demo 4.1: Condition Variable (Producer/Consumer) ---" << std::endl;
 
     std::thread p_thread(producer);
